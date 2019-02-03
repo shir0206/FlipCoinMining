@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.BlockManagementController">
+   <children>
+      <TabPane prefHeight="900.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab id="tab_wel" text="Welcome">
+              <content>
+                <AnchorPane blendMode="MULTIPLY" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="74.0" layoutY="109.0" text="Hello," />
+                        <TextField fx:id="tf_minerUsername" layoutX="139.0" layoutY="104.0" />
+                        <Label layoutX="74.0" layoutY="194.0" text="Welcome to Flip Coin Mining" textAlignment="CENTER" textFill="#17196c">
+                           <font>
+                              <Font name="System Bold" size="77.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="427.0" fitWidth="570.0" layoutX="358.0" layoutY="357.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@FlipCoinLogo.png" />
+                           </image>
+                        </ImageView>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="tab_profile" text="Profile">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="306.0" layoutX="34.0" layoutY="517.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="454.0" layoutX="34.0" layoutY="40.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Label layoutX="108.0" layoutY="107.0" text="Username" />
+                        <Label layoutX="677.0" layoutY="107.0" text="Digital Profit" />
+                        <Label layoutX="112.0" layoutY="194.0" text="Email" />
+                        <Label layoutX="113.0" layoutY="311.0" text="Contact Name" />
+                        <Label layoutX="112.0" layoutY="360.0" text="Contact Phone" />
+                        <Label layoutX="116.0" layoutY="409.0" text="Contact Email" />
+                        <TextField fx:id="profile_tf_username" layoutX="258.0" layoutY="102.0" prefHeight="31.0" prefWidth="300.0" />
+                        <TextField fx:id="profile_tf_profit" layoutX="804.0" layoutY="102.0" prefHeight="31.0" prefWidth="300.0" />
+                        <TextField fx:id="profile_tf_password" layoutX="258.0" layoutY="146.0" prefWidth="300.0" />
+                        <TextField fx:id="profile_tf_email" layoutX="258.0" layoutY="189.0" prefWidth="300.0" />
+                        <TextField fx:id="profile_tf_contactName" layoutX="263.0" layoutY="306.0" prefWidth="300.0" />
+                        <TextField fx:id="profile_tf_contactPhone" layoutX="263.0" layoutY="355.0" prefWidth="300.0" />
+                        <RadioButton fx:id="profile_rb_private" layoutX="108.0" layoutY="253.0" mnemonicParsing="false" text="Private Miner" />
+                        <RadioButton fx:id="profile_rb_business" layoutX="258.0" layoutY="253.0" mnemonicParsing="false" text="Bussiness Miner" />
+                        <Label layoutX="110.0" layoutY="151.0" text="Password" />
+                        <TextField fx:id="profile_tf_contactEmail" layoutX="263.0" layoutY="404.0" prefWidth="300.0" />
+                        <Button fx:id="profile_btn_save" layoutX="1024.0" layoutY="430.0" mnemonicParsing="false" onMouseClicked="#profile_save" prefWidth="80.0" text="Save" />
+                        <Label layoutX="108.0" layoutY="55.0" text="Watch / update your personal profile" />
+                        <RadioButton fx:id="profile_rb_market" layoutX="112.0" layoutY="589.0" mnemonicParsing="false" text="Market Prediction Report" />
+                        <RadioButton fx:id="profile_rb_blocks" layoutX="111.0" layoutY="643.0" mnemonicParsing="false" text="All Miner Blocks Report" />
+                        <RadioButton fx:id="profile_rb_riddles" layoutX="111.0" layoutY="700.0" mnemonicParsing="false" text="All Miner Riddle Report" />
+                        <RadioButton fx:id="profile_rb_lottery" layoutX="112.0" layoutY="754.0" mnemonicParsing="false" text="All Miner Lotteries Report" />
+                        <Label layoutX="113.0" layoutY="542.0" text="Produce reports" />
+                        <Button fx:id="profile_btn_run" layoutX="1024.0" layoutY="765.0" minWidth="80.0" mnemonicParsing="false" onMouseClicked="#profile_run" text="Run" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+          <Tab fx:id="tab_blockMng" text="Blocks">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="301.0" layoutX="27.0" layoutY="531.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="118.0" layoutX="27.0" layoutY="21.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="352.0" layoutX="27.0" layoutY="162.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Label layoutX="45.0" layoutY="47.0" text="Block Address" />
+                        <Label layoutX="46.0" layoutY="100.0" text="Block Size" />
+                        <Label layoutX="794.0" layoutY="44.0" text="Previous Block" />
+                        <Label layoutX="398.0" layoutY="47.0" text="Creation Date" />
+                        <Label layoutX="71.0" layoutY="556.0" text="The selected transactions" />
+                        <Label layoutX="76.0" layoutY="179.0" text="Select transactions out of all the available transactions" />
+                        <TextField fx:id="tf_blockID" layoutX="159.0" layoutY="42.0" minWidth="180.0" />
+                        <TextField fx:id="tf_blockSize" layoutX="159.0" layoutY="95.0" minWidth="180.0" />
+                        <TextField fx:id="tf_owner" layoutX="923.0" layoutY="42.0" minWidth="180.0" />
+                        <TableView fx:id="tblChs" layoutX="73.0" layoutY="592.0" prefHeight="209.0" prefWidth="1042.0">
+                          <columns>
+                              <TableColumn fx:id="tblChs_id" prefWidth="266.0" text="ID" />
+                              <TableColumn fx:id="tblChs_size" prefWidth="266.0" text="Size" />
+                              <TableColumn fx:id="tblChs_type" prefWidth="266.0" text="Type" />
+                              <TableColumn fx:id="tblChs_coms" prefWidth="266.0" text="Commission" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="tblList" layoutX="77.0" layoutY="221.0" prefHeight="225.0" prefWidth="1042.0">
+                          <columns>
+                              <TableColumn fx:id="tblList_id" prefWidth="266.0" text="ID" />
+                              <TableColumn fx:id="tblList_size" prefWidth="266.0" text="Size" />
+                              <TableColumn fx:id="tblList_type" prefWidth="266.0" text="Type" />
+                              <TableColumn fx:id="tblList_coms" prefWidth="266.0" text="Commission" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="btn_selectTrans" layoutX="1039.0" layoutY="460.0" minWidth="80.0" mnemonicParsing="false" onMouseClicked="#saveTransactions" text="Select" />
+                        <Button fx:id="btn_rep" layoutX="834.0" layoutY="460.0" mnemonicParsing="false" onAction="#produceReport" text="Transactions Pair Report" />
+                        <DatePicker fx:id="dp_date" layoutX="510.0" layoutY="39.0" minWidth="180.0" />
+                        <TextField layoutX="507.0" layoutY="95.0" minWidth="180.0" prefHeight="31.0" prefWidth="221.0" />
+                        <Label layoutX="398.0" layoutY="100.0" text="Creation Hour" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="tab_miners" text="Miners">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="322.0" layoutX="36.0" layoutY="508.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="440.0" layoutX="36.0" layoutY="48.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <TableView fx:id="miners_tbl_allMiners" layoutX="80.0" layoutY="121.0" prefHeight="294.0" prefWidth="1042.0">
+                          <columns>
+                            <TableColumn fx:id="miners_col_username" prefWidth="198.0" text="Username" />
+                            <TableColumn fx:id="miners_col_profit" prefWidth="165.0" text="Digital Profit" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="81.0" layoutY="78.0" text="All the miners in Flip Coin Mining system" />
+                        <Label layoutX="80.0" layoutY="599.0" text="Username" />
+                        <Label layoutX="80.0" layoutY="649.0" text="Digital Profit" />
+                        <Label layoutX="80.0" layoutY="708.0" text="Email" />
+                        <Label layoutX="709.0" layoutY="604.0" text="Contact Name" />
+                        <Label layoutX="709.0" layoutY="654.0" text="Contact Phone" />
+                        <Label layoutX="709.0" layoutY="713.0" text="Contact Email" />
+                        <TextField fx:id="miners_tf_username" layoutX="194.0" layoutY="594.0" prefHeight="31.0" prefWidth="300.0" />
+                        <TextField fx:id="miners_tf_profit" layoutX="194.0" layoutY="644.0" prefHeight="31.0" prefWidth="300.0" />
+                        <TextField fx:id="miners_tf_email" layoutX="194.0" layoutY="703.0" prefWidth="300.0" />
+                        <TextField fx:id="miners_tf_contactName" layoutX="822.0" layoutY="599.0" prefWidth="300.0" />
+                        <TextField fx:id="miners_tf_contactPhone" layoutX="822.0" layoutY="649.0" prefWidth="300.0" />
+                        <TextField fx:id="miners_tf_contactEmail" layoutX="822.0" layoutY="708.0" prefWidth="300.0" />
+                        <Button fx:id="miners_btn_select" layoutX="1042.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#miners_select" prefWidth="80.0" text="Select" />
+                        <RadioButton fx:id="miners_rb_private" layoutX="80.0" layoutY="786.0" mnemonicParsing="false" text="Private Miner" />
+                        <RadioButton fx:id="profile_rb_business" layoutX="248.0" layoutY="786.0" mnemonicParsing="false" text="Bussiness Miner" />
+                        <Label layoutX="81.0" layoutY="544.0" text="The chosen miner details" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="tab_riddles" text="Riddles">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="455.0" layoutX="35.0" layoutY="383.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="335.0" layoutX="35.0" layoutY="24.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <TableView fx:id="riddles_tbl_allRiddles" layoutX="73.0" layoutY="82.0" prefHeight="212.0" prefWidth="1042.0">
+                          <columns>
+                            <TableColumn fx:id="riddles_col_riddleNum" prefWidth="173.0" text="Riddle Number" />
+                            <TableColumn fx:id="riddles_col_publishDate" prefWidth="173.0" text="Publish Date" />
+                              <TableColumn fx:id="riddles_col_publishHour" prefWidth="173.0" text="Publish Hour" />
+                              <TableColumn fx:id="riddles_col_solTime" prefWidth="173.0" text="Solution Time" />
+                              <TableColumn fx:id="riddles_col_status" prefWidth="173.0" text="Status" />
+                              <TableColumn fx:id="riddles_col_level" prefWidth="173.0" text="Level" />
+                          </columns>
+                        </TableView>
+                        <TextField fx:id="riddles_tf_riddleNum" layoutX="262.0" layoutY="455.0" prefWidth="300.0" />
+                        <TextField fx:id="riddles_tf_publishHour" layoutX="814.0" layoutY="498.0" prefHeight="31.0" prefWidth="300.0" />
+                        <TextField fx:id="riddles_tf_solTime" layoutX="814.0" layoutY="544.0" prefWidth="300.0" />
+                        <TextField fx:id="riddles_tf_riddleDes" layoutX="262.0" layoutY="605.0" prefHeight="70.0" prefWidth="852.0" />
+                        <TextField fx:id="riddles_tf_solDes" layoutX="262.0" layoutY="691.0" prefHeight="70.0" prefWidth="852.0" />
+                        <Label layoutX="78.0" layoutY="459.0" text="Riddle Number" />
+                        <Label layoutX="664.0" layoutY="460.0" text="Publish Date" />
+                        <Label layoutX="664.0" layoutY="504.0" text="Public Hour" />
+                        <Label layoutX="664.0" layoutY="545.0" text="Solution Time" />
+                        <Label layoutX="78.0" layoutY="506.0" text="Level" />
+                        <Label layoutX="78.0" layoutY="605.0" text="Riddle Description" />
+                        <Label layoutX="73.0" layoutY="691.0" text="Riddle Solution" />
+                        <TextField fx:id="riddles_tf_level" layoutX="262.0" layoutY="501.0" prefWidth="300.0" />
+                        <DatePicker fx:id="riddles_dp_publishDate" layoutX="814.0" layoutY="454.0" prefWidth="300.0" />
+                        <Label layoutX="78.0" layoutY="48.0" text="Select a riddle to solve from the following list" />
+                        <Label layoutX="78.0" layoutY="410.0" text="Solve the selected riddle" />
+                        <Button fx:id="riddles_btn_select" layoutX="1035.0" layoutY="307.0" mnemonicParsing="false" onMouseClicked="#riddles_select" prefWidth="80.0" text="Select" />
+                        <Button fx:id="riddles_btn_send" layoutX="1035.0" layoutY="787.0" mnemonicParsing="false" onMouseClicked="#riddles_send" prefWidth="80.0" text="Send" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="tab_lotteries" text="Lotteries">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="416.0" layoutX="36.0" layoutY="423.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="355.0" layoutX="36.0" layoutY="40.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <TableView layoutX="84.0" layoutY="107.0" prefHeight="200.0" prefWidth="1042.0">
+                          <columns>
+                            <TableColumn fx:id="lotteries_col_lotterytNum" prefWidth="208.0" text="Lottery Number" />
+                            <TableColumn fx:id="lotteries_col_date" prefWidth="208.0" text="Date" />
+                              <TableColumn fx:id="lotteries_col_maxParticipants" prefWidth="208.0" text="Max Participants" />
+                              <TableColumn fx:id="lotteries_col_winnersNum" prefWidth="208.0" text="Number of Winners" />
+                              <TableColumn fx:id="lotteries_col_bonusesNum" prefWidth="208.0" text="Number of Bonuses" />
+                          </columns>
+                        </TableView>
+                        <ListView fx:id="lotteries_lv_bonuses" layoutX="652.0" layoutY="534.0" prefHeight="217.0" prefWidth="474.0" />
+                        <Label layoutX="84.0" layoutY="61.0" text="Select a lottery" />
+                        <Button fx:id="lotteries_btn_select" layoutX="1046.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#lotteries_select" prefWidth="80.0" text="Select" />
+                        <Label layoutX="84.0" layoutY="494.0" text="Lottery Number" />
+                        <Label layoutX="84.0" layoutY="551.0" text="Date" />
+                        <Label layoutX="84.0" layoutY="605.0" text="Max Participants" />
+                        <Label layoutX="84.0" layoutY="663.0" text="Number Of Winners" />
+                        <Label layoutX="85.0" layoutY="725.0" text="Number of Bonuses" />
+                        <Label layoutX="653.0" layoutY="494.0" text="List of bonuses for the winners in this lottery" />
+                        <TextField fx:id="lotteries_tf_lotterytNum" layoutX="253.0" layoutY="489.0" prefHeight="31.0" prefWidth="220.0" />
+                        <TextField fx:id="lotteries_tf_maxParticipants" layoutX="253.0" layoutY="600.0" prefWidth="220.0" />
+                        <TextField fx:id="lotteries_tf_winnersNum" layoutX="253.0" layoutY="658.0" prefWidth="220.0" />
+                        <TextField fx:id="lotteries_tf_bonusesNum" layoutX="253.0" layoutY="720.0" prefWidth="220.0" />
+                        <DatePicker fx:id="lotteries_dp_date" layoutX="253.0" layoutY="546.0" />
+                        <Button fx:id="lotteries_btn_signUp" layoutX="1053.0" layoutY="792.0" mnemonicParsing="false" onMouseClicked="#lotteries_signUp" text="Sign Up" />
+                        <Label layoutX="85.0" layoutY="446.0" text="Sign up to the lottery" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+          <Tab fx:id="tab_transImpExp" text="Import / Export Transactions">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="220.0" layoutX="30.0" layoutY="59.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Label layoutX="66.0" layoutY="83.0" text="Choose an action" />
+                        <RadioButton fx:id="btn_exp" layoutX="66.0" layoutY="176.0" mnemonicParsing="false" text="Export all approved transactions to Flip Coin Transfer (XML format)" />
+                        <RadioButton fx:id="btn_imp" layoutX="66.0" layoutY="129.0" mnemonicParsing="false" text="Import all pending for approval transactions from Flip Coin Transfer (JSON format)" />
+                        <Button fx:id="btn_run" layoutX="1012.0" layoutY="232.0" mnemonicParsing="false" prefWidth="80.0" text="Run" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Riddles Management">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="277.0" layoutX="21.0" layoutY="31.0" stroke="#0000006a" strokeType="INSIDE" width="1130.0" />
+                        <Label layoutX="34.0" layoutY="41.0" text="All Riddles in the system" />
+                        <TableView layoutX="34.0" layoutY="331.0" prefHeight="200.0" prefWidth="446.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                              <TableColumn prefWidth="75.0" text="Column X" />
+                              <TableColumn prefWidth="75.0" text="Column X" />
+                              <TableColumn prefWidth="75.0" text="Column X" />
+                              <TableColumn prefWidth="75.0" text="Column X" />
+                              <TableColumn prefWidth="75.0" text="Column X" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Lotteries Management">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

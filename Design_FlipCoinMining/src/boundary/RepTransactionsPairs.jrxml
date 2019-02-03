@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepTransactionsPairs" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0945685c-25b9-4425-a744-474b2b31552d">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="128"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="867"/>
+	<queryString>
+		<![CDATA[SELECT TblTransaction.ID, TblTransaction.size, TblTransaction.commission, TblTransaction_1.ID, TblTransaction_1.size, TblTransaction_1.commission, Sum(TblTransaction.size+TblTransaction_1.size) AS SumOfsize, Sum(TblTransaction.commission+TblTransaction_1.commission) AS SumOfCommission
+FROM TblTransaction, TblTransaction AS TblTransaction_1
+WHERE (((TblTransaction.blockID) Is Null) AND ((TblTransaction_1.blockID) Is Null) AND ((TblTransaction.ID)<>[TblTransaction_1].[ID]))
+GROUP BY TblTransaction.ID, TblTransaction.size, TblTransaction.commission, TblTransaction_1.ID, TblTransaction_1.size, TblTransaction_1.commission
+ORDER BY Sum(TblTransaction.size+TblTransaction_1.size), Sum(TblTransaction.commission+TblTransaction_1.commission);]]>
+	</queryString>
+	<field name="ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	</field>
+	<field name="size" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="size"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	</field>
+	<field name="commission" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="commission"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	</field>
+	<field name="COLUMN_4" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	</field>
+	<field name="COLUMN_5" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="size"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	</field>
+	<field name="COLUMN_6" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="commission"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	</field>
+	<field name="SumOfsize" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SumOfsize"/>
+	</field>
+	<field name="SumOfCommission" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="SumOfCommission"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="168" splitType="Stretch">
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="30" width="552" height="80" forecolor="#ED7D31" uuid="4dc8c099-6096-4fa8-a6fd-c7628dfc251b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="29" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Transaction pairs by block size"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="138" width="208" height="30" backcolor="#F4B084" uuid="8cf9b19c-9fa4-40c1-8151-c82e598c43f6"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Transaction1"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="208" y="138" width="207" height="30" backcolor="#F4B084" uuid="dea06ae8-520c-4075-a748-5552c299439d"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Transaction2"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="415" y="138" width="138" height="30" backcolor="#F4B084" uuid="ed88fc5f-ba3d-414e-964d-6c9f67144e79"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="10" width="70" height="40" backcolor="#F8CBAD" uuid="4e78ccf8-47b1-493d-95ed-2884c5743aa9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9079e9b7-5795-4fa3-9302-cae25b51f4a4"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="70" y="10" width="69" height="40" backcolor="#F8CBAD" uuid="17fc7e80-4542-41e9-840d-06ddafdd18f7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ab41ccf-8867-4ed8-9ba2-cd73d8117a19"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Size]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="139" y="10" width="69" height="40" backcolor="#F8CBAD" uuid="b50e0d61-38bf-435e-85c1-d9836e6ab0f7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3dba6b6e-78ec-4cc7-b1ca-39eda0de0c2c"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Commission]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="208" y="10" width="69" height="40" backcolor="#F8CBAD" uuid="caf43f83-1600-40a3-972f-5138352cc55f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e37bae6d-0bc2-4dc5-864e-535efc9fe918"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="277" y="10" width="69" height="40" backcolor="#F8CBAD" uuid="f8298e9f-ee5e-49d8-8bc0-20da12a4a7ae">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d9101eae-095c-418e-a9a2-51150d249f0c"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Size]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="346" y="10" width="69" height="40" backcolor="#F8CBAD" uuid="5a9633ee-a38c-4fa4-9b82-6754bf95b0b5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbf714a6-1b79-4d08-bb28-01e906a03137"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Commission]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="415" y="10" width="69" height="40" backcolor="#F8CBAD" uuid="7e9737f3-5e18-479a-b93f-49a7c49fbd9b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f0c3c5d9-8382-402e-80cf-bff5a9d981d5"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sum of Size]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="484" y="10" width="69" height="40" backcolor="#F8CBAD" uuid="1ea733c9-c1b8-41e6-9d6b-a1d38e0495f9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="229ba84f-b434-4409-9db6-ec1c007aa3e3"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sum of Commission]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="72" height="30" backcolor="#FCE4D6" uuid="8d9f3220-f1a3-4b39-9917-dd5dbd0b3691">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9079e9b7-5795-4fa3-9302-cae25b51f4a4"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="0" width="69" height="30" uuid="c4c1afe0-fbe6-4369-bac2-cc6310181f7f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ab41ccf-8867-4ed8-9ba2-cd73d8117a19"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{size}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="0" width="69" height="30" uuid="71b723e5-bf96-4f37-a560-f12c5dc87c8d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3dba6b6e-78ec-4cc7-b1ca-39eda0de0c2c"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{commission}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="210" y="0" width="69" height="30" backcolor="#FCE4D6" uuid="f79349a5-35a3-4963-9d25-e169363d8663">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e37bae6d-0bc2-4dc5-864e-535efc9fe918"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="0" width="69" height="30" uuid="03060a48-e45c-4ca5-8abd-8469b5adc267">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d9101eae-095c-418e-a9a2-51150d249f0c"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="348" y="0" width="69" height="30" uuid="30e9f282-ad8a-4292-ac40-0653447349b3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbf714a6-1b79-4d08-bb28-01e906a03137"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="417" y="0" width="69" height="30" backcolor="#FCE4D6" uuid="0a14af50-3416-4adc-9584-9dcbf733135d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f0c3c5d9-8382-402e-80cf-bff5a9d981d5"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SumOfsize}]]></textFieldExpression>
+			</textField>
+			<textField pattern="0.00">
+				<reportElement mode="Opaque" x="486" y="0" width="67" height="30" backcolor="#FCE4D6" uuid="d8337735-37e0-4e80-a1d3-a712ccdaa1e9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="229ba84f-b434-4409-9db6-ec1c007aa3e3"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SumOfCommission}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

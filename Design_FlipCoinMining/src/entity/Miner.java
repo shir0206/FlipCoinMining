@@ -5,18 +5,20 @@ public class Miner {
 	private final String uniqueAddress;
 	private String name;
 	private String password;
-	private long digitalProfit;
+	private double digitalProfit;
 	private String email;
 	
-	public Miner(String uniqueAddress, String name, String password, String email, int digitalProfit) {
+
+	
+	public Miner(String uniqueAddress, String name, String password, long digitalProfit, String email) {
 		super();
 		this.uniqueAddress = uniqueAddress;
 		this.name = name;
 		this.password = password;
-		this.email = email;
 		this.digitalProfit = digitalProfit;
+		this.email = email;
 	}
-	
+
 	public Miner(String uniqueAddress) {
 		super();
 		this.uniqueAddress = uniqueAddress;
@@ -46,11 +48,11 @@ public class Miner {
 		this.email = email;
 	}
 	
-	public long getDigitalProfit() {
+	public double getDigitalProfit() {
 		return digitalProfit;
 	}
 	
-	public void setDigitalProfit(long digitalProfit) {
+	public void setDigitalProfit(double digitalProfit) {
 		this.digitalProfit = digitalProfit;
 	}
 	

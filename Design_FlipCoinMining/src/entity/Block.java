@@ -11,10 +11,11 @@ public class Block {
 	private String minerAddress;
 	private String previousBlock;
 	
-	public Block(int ID, Date creationDate, int size, String minerAddress, String previousBlock) {
+	public Block(int ID, Date creationDate, Date creationHour, int size, String minerAddress, String previousBlock) {
 		super();
 		this.ID = ID;
 		this.creationDate = creationDate;
+		this.creationHour = creationHour;
 		this.size = size;
 		this.minerAddress = minerAddress;
 		this.previousBlock = previousBlock;
@@ -60,10 +61,19 @@ public class Block {
 		return ID;
 	}
 
+	public Date getCreationHour() {
+		return creationHour;
+	}
+
+	public void setCreationHour(Date creationHour) {
+		this.creationHour = creationHour;
+	}
+	
 	@Override
 	public String toString() {
-		return "Block [ID=" + ID + ", creationDate=" + creationDate + ", size=" + size + ", minerAddress=" + minerAddress
+		return "Block [ID=" + ID + ", creationDate=" + creationDate + ", creationHour = " + creationHour + ", size=" + size + ", minerAddress=" + minerAddress
 				+ ", previousBlock=" + previousBlock + "]";
 	}
+
 		
 }

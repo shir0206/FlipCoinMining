@@ -59,7 +59,7 @@ public class BlockLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new Block(rs.getInt(i++), rs.getDate(i++), rs.getDate(i++),
+					results.add(new Block(rs.getString(i++), rs.getDate(i++), rs.getDate(i++),
 							rs.getInt(i++), rs.getString(i++), rs.getString(i++)));
 				}
 			} catch (SQLException e) {

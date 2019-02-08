@@ -19,14 +19,14 @@ public class ViewLogic {
 	protected static final Rectangle2D FULL_SCREEN = Screen.getPrimary().getBounds();
 	protected static final Rectangle2D VISIBLE_SCREEN = Screen.getPrimary().getVisualBounds();
 
-	protected static BlockLogic blockLogic;
+	protected static BlockLogic instance;
 
 	// ------------------------------ Methods ------------------------------
 	/**
 	 * this method starts the windows in the system
 	 */
 	public static void initUI() {
-		blockLogic = BlockLogic.getInstance();
+		instance = BlockLogic.getInstance();
 		System.out.println("sysdata isnt null");
 		newEmployeeWindow();
 	}
@@ -98,7 +98,7 @@ public class ViewLogic {
 	protected static void newEmployeeWindow() {
 		Stage stage = new Stage();
 
-		newWindow(ViewLogic.class.getResource("BlockManagement.fxml"),
+		newWindow(ViewLogic.class.getResource("Home.fxml"),
 				stage, null, null, null, null, null, null, true, "Flip Coin Mining", false);
 	}
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.MinersController">
+   <children>
+      <AnchorPane prefHeight="900.0" prefWidth="1200.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="338.0" layoutX="27.0" layoutY="456.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
+            <Label layoutX="116.0" layoutY="546.0" text="Username" />
+            <Label layoutX="116.0" layoutY="661.0" text="Email" />
+            <TextField fx:id="tf_username" layoutX="253.0" layoutY="541.0" />
+            <TextField fx:id="tf_email" layoutX="253.0" layoutY="656.0" />
+            <RadioButton fx:id="rb_privateMiner" layoutX="116.0" layoutY="722.0" mnemonicParsing="false" text="Private Miner" />
+            <RadioButton fx:id="rb_businerrMiner" layoutX="314.0" layoutY="722.0" mnemonicParsing="false" text="Business Miner" />
+            <Label layoutX="699.0" layoutY="536.0" text="Contact Name" />
+            <Label layoutX="699.0" layoutY="602.0" text="Contact Phone" />
+            <Label layoutX="699.0" layoutY="664.0" text="Contact Email" />
+            <TextField fx:id="tf_contactName" layoutX="836.0" layoutY="531.0" />
+            <TextField fx:id="tf_contactPhone" layoutX="836.0" layoutY="597.0" />
+            <TextField fx:id="tf_contactEmail" layoutX="836.0" layoutY="659.0" />
+            <Label layoutX="116.0" layoutY="600.0" text="Digital Profit" />
+            <TextField fx:id="tf_digitalProfit" layoutX="253.0" layoutY="595.0" />
+            <Button fx:id="btn_select" layoutX="552.0" layoutY="833.0" mnemonicParsing="false" onMouseClicked="#watchMinerDetails" prefWidth="100.0" text="Select" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="399.0" layoutX="27.0" layoutY="35.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
+            <Label layoutX="117.0" layoutY="489.0" text="Current miner details" />
+            <TableView fx:id="tbl_allMiners" layoutX="117.0" layoutY="118.0" prefHeight="274.0" prefWidth="1000.0">
+              <columns>
+                <TableColumn fx:id="col_allMiners_username" prefWidth="500.0" text="Username" />
+                <TableColumn fx:id="col_allMiners_digitalProfit" prefWidth="500.0" text="Digital Profit" />
+              </columns>
+            </TableView>
+            <Label layoutX="117.0" layoutY="71.0" text="All miners in the system" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

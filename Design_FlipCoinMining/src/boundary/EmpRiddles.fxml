@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.EmpRiddlesController">
+   <children>
+      <AnchorPane prefHeight="900.0" prefWidth="1200.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="430.0" layoutX="27.0" layoutY="35.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="392.0" layoutX="27.0" layoutY="487.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
+            <Label layoutX="116.0" layoutY="578.0" text="Riddle Number" />
+            <Label layoutX="635.0" layoutY="578.0" text="Riddle Description" />
+            <TextField fx:id="tf_number" layoutX="253.0" layoutY="573.0" />
+            <TextField fx:id="tf_riddleDescription" layoutX="772.0" layoutY="573.0" prefHeight="76.0" prefWidth="342.0" />
+            <Label layoutX="116.0" layoutY="673.0" text="Publish Date" />
+            <Label layoutX="116.0" layoutY="721.0" text="Publish Hour" />
+            <Label layoutX="116.0" layoutY="767.0" text="Solution Time" />
+            <TextField fx:id="tf_publishDate" layoutX="253.0" layoutY="668.0" />
+            <TextField fx:id="tf_publishHour" layoutX="253.0" layoutY="716.0" />
+            <TextField fx:id="tf_solutionTime" layoutX="253.0" layoutY="762.0" />
+            <Label layoutX="116.0" layoutY="621.0" text="Level" />
+            <TextField fx:id="tf_level" layoutX="253.0" layoutY="618.0" />
+            <Label layoutX="117.0" layoutY="521.0" text="Solve the riddle to recieve a new block" />
+            <TableView fx:id="tbl_allRiddles" layoutX="117.0" layoutY="118.0" prefHeight="274.0" prefWidth="1000.0">
+              <columns>
+                <TableColumn fx:id="col_allRiddles_number" prefWidth="166.0" text="Riddle Number" />
+                <TableColumn fx:id="col_allRiddles_publishDate" prefWidth="166.0" text="Publish Date" />
+                  <TableColumn fx:id="col_allRiddles_publishHour" prefWidth="166.0" text="Publish Hour" />
+                  <TableColumn fx:id="col_allRiddles_solutionTime" prefWidth="166.0" text="Solution Time" />
+                  <TableColumn fx:id="col_allRiddles_level" prefWidth="166.0" text="Level" />
+                  <TableColumn fx:id="col_allRiddles_status" prefWidth="166.0" text="Status" />
+              </columns>
+            </TableView>
+            <Label layoutX="117.0" layoutY="71.0" text="All available riddles in the system" />
+            <Label layoutX="635.0" layoutY="674.0" text="Riddle Solutions" />
+            <ListView fx:id="lv_riddleSolution" layoutX="772.0" layoutY="675.0" prefHeight="123.0" prefWidth="342.0" />
+            <Button fx:id="btn_select" layoutX="552.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#watchRiddleDetails" prefWidth="100.0" text="Select" />
+            <Button fx:id="btn_save" layoutX="552.0" layoutY="834.0" mnemonicParsing="false" onMouseClicked="#saveRiddleDetails" prefWidth="100.0" text="Save" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

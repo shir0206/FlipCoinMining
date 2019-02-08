@@ -4,24 +4,25 @@ import java.util.Date;
 
 public class Block {
 	
-	private final int ID;
+	private final String ID;
 	private Date creationDate;
 	private Date creationHour;
 	private int size;
-	private String minerAddress;
 	private String previousBlock;
+	private String minerAddress;
 	
-	public Block(int ID, Date creationDate, Date creationHour, int size, String minerAddress, String previousBlock) {
+	public Block(String ID, Date creationDate, Date creationHour, int size, String previousBlock, String minerAddress) {
 		super();
 		this.ID = ID;
 		this.creationDate = creationDate;
 		this.creationHour = creationHour;
 		this.size = size;
-		this.minerAddress = minerAddress;
 		this.previousBlock = previousBlock;
+
+		this.minerAddress = minerAddress;
 	}
 
-	public Block (int ID) {
+	public Block (String ID) {
 		this.ID = ID;
 	}
 
@@ -41,11 +42,11 @@ public class Block {
 		this.size = size;
 	}
 
-	public String getOwner() {
+	public String getMinerAddress() {
 		return minerAddress;
 	}
 
-	public void setOwner(String minerAddress) {
+	public void setMinerAddress(String minerAddress) {
 		this.minerAddress = minerAddress;
 	}
 
@@ -57,7 +58,7 @@ public class Block {
 		this.previousBlock = previousBlock;
 	}
 
-	public int getID() {
+	public String getID() {
 		return ID;
 	}
 

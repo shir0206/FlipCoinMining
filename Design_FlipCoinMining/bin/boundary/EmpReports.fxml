@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.EmpReportsController">
+   <children>
+      <AnchorPane prefHeight="900.0" prefWidth="1200.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="305.0" layoutX="27.0" layoutY="35.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
+            <Label layoutX="123.0" layoutY="88.0" text="From" />
+            <Label layoutX="123.0" layoutY="131.0" text="To" />
+            <Button fx:id="btn_dominantMinerRep" layoutX="486.0" layoutY="259.0" mnemonicParsing="false" onMouseClicked="#runDominantMinerRep" prefWidth="232.0" text="Run Dominant Miner Report" />
+            <DatePicker fx:id="dp_from" layoutX="222.0" layoutY="83.0" />
+            <DatePicker fx:id="dp_to" layoutX="222.0" layoutY="128.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

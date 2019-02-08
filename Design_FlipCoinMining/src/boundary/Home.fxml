@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.HomeController">
+   <children>
+      <AnchorPane prefHeight="900.0" prefWidth="1200.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="215.0" layoutX="27.0" layoutY="606.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="544.0" layoutX="27.0" layoutY="33.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
+            <Button fx:id="btn_lotteries" layoutX="947.0" layoutY="664.0" mnemonicParsing="false" onMouseClicked="#openLotteriesWindow" prefHeight="100.0" prefWidth="200.0" text="Lotteries">
+               <font>
+                  <Font size="32.0" />
+               </font></Button>
+            <Button fx:id="btn_profile" layoutX="60.0" layoutY="664.0" mnemonicParsing="false" onMouseClicked="#openProfileWindow" prefHeight="100.0" prefWidth="200.0" text="Profile">
+               <font>
+                  <Font size="32.0" />
+               </font></Button>
+            <Label layoutX="164.0" layoutY="76.0" text="Welcom to Flip Coin Mining">
+               <font>
+                  <Font name="System Bold" size="67.0" />
+               </font></Label>
+            <Button fx:id="btn_miners" layoutX="282.0" layoutY="664.0" mnemonicParsing="false" onMouseClicked="#openMinersWindow" prefHeight="100.0" prefWidth="200.0" text="Miners">
+               <font>
+                  <Font size="32.0" />
+               </font></Button>
+            <Button fx:id="btn_blocks" layoutX="504.0" layoutY="664.0" mnemonicParsing="false" onMouseClicked="#openBlocksWindow" prefHeight="100.0" prefWidth="200.0" text="Blocks">
+               <font>
+                  <Font size="32.0" />
+               </font></Button>
+            <ImageView fitHeight="288.0" fitWidth="293.0" layoutX="454.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@FlipCoinLogo.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="btn_riddles" layoutX="725.0" layoutY="664.0" mnemonicParsing="false" onMouseClicked="#openRiddlesWindow" prefHeight="100.0" prefWidth="200.0" text="Riddles">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

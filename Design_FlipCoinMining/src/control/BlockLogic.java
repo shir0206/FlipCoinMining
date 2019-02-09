@@ -1621,13 +1621,87 @@ public class BlockLogic {
 		return results;
 	}
 
-
+	/**
+	 * Get all available transactions that arent attached to ant block from DB file.
+	 * @return ArrayList of Transactions.
+	 */
+	public ArrayList<Transaction> getAllAvailableTransactions() {
+		ArrayList<Transaction> results = new ArrayList<Transaction>();
+		try {
+			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+					PreparedStatement stmt = conn.prepareStatement(Consts.SQL_Transaction_getAllAvailabke);
+					ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					int i = 1;
+					results.add(new Transaction(rs.getString(i++), rs.getInt(i++), rs.getString(i++), 
+							rs.getDouble(i++), rs.getString(i++), rs.getDate(i++), rs.getDate(i++)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+	
+	/**
+	 * Get all available transactions that are attached to certain block from DB file.
+	 * @return ArrayList of Transactions.
+	 */
+	public ArrayList<Transaction> getAllTransactionsInBlock(String blockID) {
+		ArrayList<Transaction> results = new ArrayList<Transaction>();
+		try {
+			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+					PreparedStatement stmt = conn.prepareStatement(Consts.SQL_Transaction_getAllTransInBlock(blockID));
+					ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					int i = 1;
+					results.add(new Transaction(rs.getString(i++), rs.getInt(i++), rs.getString(i++), 
+							rs.getDouble(i++), rs.getString(i++), rs.getDate(i++), rs.getDate(i++)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+	
+	
+	
+	/**
+	 * Get all available transactions that are attached to certain block from DB file.
+	 * @return ArrayList of Transactions.
+	 */
+	public int getSumOfTransInBlock(String blockID) {
+		int results = 0;
+		try {
+			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+					PreparedStatement stmt = conn.prepareStatement(Consts.SQL_Transaction_getSumOfTransInBlock(blockID));
+					ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					int i = 1;
+					results = new Integer(rs.getInt(i++));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
 
 	/**
 	 * Add a new Transaction with the parameters received from the form.
 	 * @return true if the insertion was successful, else - return false.
 	 */
-	public boolean addTransaction(Integer ID, Integer size, String type, Double fee, String blockAddress, 
+	public boolean addTransaction(String ID, Integer size, String type, Double fee, String blockAddress, 
 			Date additionTime, Date additionDate ) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
@@ -1635,7 +1709,7 @@ public class BlockLogic {
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_Transaction_insert)) {
 
 				int i = 1;
-				stmt.setInt(i++, ID); // can't be null
+				stmt.setString(i++, ID); // can't be null
 
 				if (size != null)
 					stmt.setInt(i++, size);
@@ -1683,13 +1757,13 @@ public class BlockLogic {
 	 * @param TransactionID - the Transaction to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
-	public boolean removeTransaction(int ID) {
+	public boolean removeTransaction(String ID) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_Transaction_delete)) {
 
-				stmt.setLong(1, ID);
+				stmt.setString(1, ID);
 				stmt.executeUpdate();
 				return true;
 
@@ -1703,49 +1777,163 @@ public class BlockLogic {
 	}
 
 
+//	/**
+//	 * Edit an existed Transaction with the parameters received from the form.
+//	 * @return true if the update was successful, else - return false.
+//	 *  
+//	 */
+//	public boolean editTransaction (String ID, Integer size, String type, Double fee, String blockAddress, 
+//			Date additionTime, Date additionDate) {
+//		try {
+//			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+//			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+//					CallableStatement stmt = conn.prepareCall(Consts.SQL_Transaction_update)) {
+//				int i = 1;
+//
+//				stmt.setString(i++, ID); // can't be null
+//
+//				if (size != null)
+//					stmt.setInt(i++, size);
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);
+//				
+//				if (type != null)
+//					stmt.setString(i++, type);
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);
+//				
+//				if (fee != null)
+//					stmt.setDouble(i++, fee);
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);
+//				
+//				if (blockAddress != null)
+//					stmt.setString(i++, blockAddress);
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);
+//				
+//				
+//				if (additionTime != null)
+//					stmt.setDate(i++, new java.sql.Date(additionTime.getTime()));
+//				else
+//					stmt.setNull(i++, java.sql.Types.DATE);
+//				if (additionDate != null)
+//					stmt.setDate(i++, new java.sql.Date(additionDate.getTime()));
+//					stmt.setString(i++, ID);
+//				stmt.executeUpdate();
+//				return true;
+//
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//		return false;
+//	}
+
+//	/**
+//	 * Edit an existed Transaction with the parameters received from the form.
+//	 * @return true if the update was successful, else - return false.
+//	 *  
+//	 */
+//	public boolean editTransaction (String ID, Integer size, String type, Double fee, String blockAddress) {
+//		try {
+//			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+//			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+//					CallableStatement stmt = conn.prepareCall(Consts.SQL_Transaction_update)) {
+//				int i = 1;
+//
+//				stmt.setString(i++, ID); // can't be null
+//
+//				if (size != null)
+//					stmt.setInt(i++, size);
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);
+//				
+//				if (type != null)
+//					stmt.setString(i++, type);
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);
+//				
+//				if (fee != null)
+//					stmt.setDouble(i++, fee);
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);
+//				
+//				if (blockAddress != null)
+//					stmt.setString(i++, blockAddress);
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);
+//
+//				stmt.executeUpdate();
+//				return true;
+//
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//		return false;
+//	}
+
+	
+	
 	/**
 	 * Edit an existed Transaction with the parameters received from the form.
 	 * @return true if the update was successful, else - return false.
 	 *  
 	 */
-	public boolean editTransaction (Integer ID, Integer size, String type, Double fee, String blockAddress, 
-			Date additionTime, Date additionDate) {
+	public boolean addTransToBlock (Transaction trans, Block block) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_Transaction_update)) {
 				int i = 1;
+				
+				stmt.setString(i++, block.getID());
+				stmt.setString(i++, trans.getID()); // can't be null
 
-				stmt.setInt(i++, ID); // can't be null
+//				if (block.getID() != null)
+//					stmt.setString(i++, block.getID());
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);	
 
-				if (size != null)
-					stmt.setInt(i++, size);
-				else
-					stmt.setNull(i++, java.sql.Types.VARCHAR);
+				stmt.executeUpdate();
+				return true;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	
+	/**
+	 * Edit an existed Transaction with the parameters received from the form.
+	 * @return true if the update was successful, else - return false.
+	 *  
+	 */
+	public boolean removeTransFromBlock (Transaction trans, Block block) {
+		try {
+			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+					CallableStatement stmt = conn.prepareCall(Consts.SQL_Transaction_update)) {
+				int i = 1;
 				
-				if (type != null)
-					stmt.setString(i++, type);
-				else
-					stmt.setNull(i++, java.sql.Types.VARCHAR);
-				
-				if (fee != null)
-					stmt.setDouble(i++, fee);
-				else
-					stmt.setNull(i++, java.sql.Types.VARCHAR);
-				
-				if (blockAddress != null)
-					stmt.setString(i++, blockAddress);
-				else
-					stmt.setNull(i++, java.sql.Types.VARCHAR);
-				
-				
-				if (additionTime != null)
-					stmt.setDate(i++, new java.sql.Date(additionTime.getTime()));
-				else
-					stmt.setNull(i++, java.sql.Types.DATE);
-				if (additionDate != null)
-					stmt.setDate(i++, new java.sql.Date(additionDate.getTime()));
-					stmt.setLong(i++, ID);
+				stmt.setNull(i++, java.sql.Types.VARCHAR);
+				stmt.setString(i++, trans.getID()); // can't be null
+
+//				if (block.getID() != null)
+//					stmt.setString(i++, block.getID());
+//				else
+//					stmt.setNull(i++, java.sql.Types.VARCHAR);	
+
 				stmt.executeUpdate();
 				return true;
 
@@ -1758,8 +1946,23 @@ public class BlockLogic {
 		return false;
 	}
 
+	
+	
+	
+	//----------------------------------------- Report Methods -------------------------------------
 
-
+	
+		public void TransactionsPairsReport() throws  ClassNotFoundException, SQLException, JRException {
+		Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+			JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("../boundary/RepTransactionsPairs.jasper"), null, conn);
+			JFrame frame = new JFrame("Transactions Report");
+			frame.getContentPane().add(new JRViewer(print));
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			frame.pack();
+			frame.setVisible(true);
+	
+		}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

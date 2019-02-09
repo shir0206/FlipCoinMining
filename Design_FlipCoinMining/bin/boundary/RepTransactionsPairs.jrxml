@@ -6,11 +6,19 @@
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="128"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="867"/>
 	<queryString>
-		<![CDATA[SELECT TblTransaction.ID, TblTransaction.size, TblTransaction.commission, TblTransaction_1.ID, TblTransaction_1.size, TblTransaction_1.commission, Sum(TblTransaction.size+TblTransaction_1.size) AS SumOfsize, Sum(TblTransaction.commission+TblTransaction_1.commission) AS SumOfCommission
-FROM TblTransaction, TblTransaction AS TblTransaction_1
-WHERE (((TblTransaction.blockID) Is Null) AND ((TblTransaction_1.blockID) Is Null) AND ((TblTransaction.ID)<>[TblTransaction_1].[ID]))
-GROUP BY TblTransaction.ID, TblTransaction.size, TblTransaction.commission, TblTransaction_1.ID, TblTransaction_1.size, TblTransaction_1.commission
-ORDER BY Sum(TblTransaction.size+TblTransaction_1.size), Sum(TblTransaction.commission+TblTransaction_1.commission);]]>
+		<![CDATA[SELECT tblTransaction.ID, tblTransaction.size, tblTransaction.fee, tblTransaction_1.ID, tblTransaction_1.size, tblTransaction_1.fee, (tblTransaction.size+tblTransaction_1.size) AS sumSize, (tblTransaction.fee+tblTransaction_1.fee) AS sumFee, (tblTransaction.ID+tblTransaction_1.ID) AS pair1, (tblTransaction.ID+tblTransaction_1.ID) AS pair2
+FROM tblTransaction, tblTransaction AS tblTransaction_1
+
+WHERE (
+((tblTransaction.blockAddress) Is Null)
+AND ((tblTransaction_1.blockAddress) Is Null)
+AND ((tblTransaction.ID)<>(tblTransaction_1.ID))
+)
+
+
+GROUP BY tblTransaction.ID, tblTransaction.size, tblTransaction.fee, tblTransaction_1.ID, tblTransaction_1.size, tblTransaction_1.fee, tblTransaction.size, tblTransaction.fee
+ORDER BY tblTransaction.size DESC , tblTransaction.fee;
+]]>
 	</queryString>
 	<field name="ID" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="ID"/>

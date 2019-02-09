@@ -9,6 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.HomeController">
+
    <children>
       <AnchorPane prefHeight="900.0" prefWidth="1200.0">
          <children>

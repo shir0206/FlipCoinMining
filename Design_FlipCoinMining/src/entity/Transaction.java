@@ -5,9 +5,9 @@ import java.util.Date;
 public class Transaction {
 	
 	private final String ID;
-	private int size;
+	private Integer size;
 	private String type;
-	private double fee;
+	private Double fee;
 	private String blockAddress;
 	private Date additionTime;
 	private Date additionDate; 
@@ -21,7 +21,7 @@ public class Transaction {
 	}
 //					results.add(new Transaction(rs.getInt(i++), rs.getInt(i++), rs.getString(i++), rs.getDouble(i++), rs.getString(i++), rs.getDate(i++), rs.getDate(i++)));
 
-	public Transaction(String ID, int size, String type, double fee, String blockAddress, Date additionTime, Date additionDate) {
+	public Transaction(String ID, Integer size, String type, Double fee, String blockAddress, Date additionTime, Date additionDate) {
 		super();
 		this.ID = ID;
 		this.size = size;
@@ -32,7 +32,16 @@ public class Transaction {
 		this.additionDate = additionDate;
 	}
 
-	public Transaction(String ID, int size, String type, double fee) {
+	public Transaction(String ID, Integer size, String type, Double fee, String blockAddress) {
+		super();
+		this.ID = ID;
+		this.size = size;
+		this.type = type;
+		this.fee = fee;
+		this.blockAddress = blockAddress;
+	}
+	
+	public Transaction(String ID, Integer size, String type, double fee) {
 		super();
 		this.ID = ID;
 		this.size = size;
@@ -44,11 +53,11 @@ public class Transaction {
 		this.ID = ID;
 	}
 
-	public int getSize() {
+	public Integer getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(Integer size) {
 		this.size = size;
 	}
 
@@ -60,7 +69,7 @@ public class Transaction {
 		this.type = type;
 	}
 
-	public double getfee() {
+	public Double getfee() {
 		return fee;
 	}
 

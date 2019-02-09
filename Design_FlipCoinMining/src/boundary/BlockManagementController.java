@@ -448,8 +448,8 @@ public class BlockManagementController {
 		// Display data in table
 		ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
-		transactions.setAll(ViewLogic.blockLogic.getAllTransactions());
-		System.out.println(ViewLogic.blockLogic.getAllTransactions());
+		transactions.setAll(ViewLogic.instance.getAllTransactions());
+		System.out.println(ViewLogic.instance.getAllTransactions());
 
 		tblList.setItems(transactions);
 		tblList.refresh();

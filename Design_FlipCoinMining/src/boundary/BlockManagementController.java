@@ -7,7 +7,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JFrame;
-import control.BlockLogic;
+import control.DataLogic;
 import entity.Block;
 import entity.Transaction;
 import javafx.collections.FXCollections;
@@ -519,7 +519,7 @@ public class BlockManagementController {
 	 */
 	@FXML
 	void produceReport(ActionEvent event) throws ClassNotFoundException, SQLException, JRException {
-		BlockLogic.getInstance().produceReport();
+		DataLogic.getInstance().produceReport();
 	}
 	
 }

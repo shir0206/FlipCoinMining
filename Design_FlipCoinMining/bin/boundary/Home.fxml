@@ -23,7 +23,7 @@
                <font>
                   <Font size="32.0" />
                </font></Button>
-            <Label layoutX="164.0" layoutY="76.0" text="Welcom to Flip Coin Mining">
+            <Label layoutX="164.0" layoutY="76.0" text="Welcome to Flip Coin Mining">
                <font>
                   <Font name="System Bold" size="67.0" />
                </font></Label>

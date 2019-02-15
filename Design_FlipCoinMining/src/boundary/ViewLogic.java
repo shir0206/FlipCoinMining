@@ -4,7 +4,7 @@ package boundary;
 import java.io.IOException;
 import java.net.URL;
 
-import control.BlockLogic;
+import control.DataLogic;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -19,14 +19,14 @@ public class ViewLogic {
 	protected static final Rectangle2D FULL_SCREEN = Screen.getPrimary().getBounds();
 	protected static final Rectangle2D VISIBLE_SCREEN = Screen.getPrimary().getVisualBounds();
 
-	protected static BlockLogic instance;
+	protected static DataLogic instance;
 
 	// ------------------------------ Methods ------------------------------
 	/**
 	 * this method starts the windows in the system
 	 */
 	public static void initUI() {
-		instance = BlockLogic.getInstance();
+		instance = DataLogic.getInstance();
 		System.out.println("sysdata isnt null");
 		newEmployeeWindow();
 	}

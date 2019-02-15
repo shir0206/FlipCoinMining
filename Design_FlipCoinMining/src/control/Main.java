@@ -9,12 +9,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	private static BlockLogic blockLogic;
+	private static DataLogic blockLogic;
 
 	public static void main(String[] args) {
 		if (blockLogic == null) {
 			System.out.println("Block logic is created");
-			blockLogic = BlockLogic.getInstance();
+			blockLogic = DataLogic.getInstance();
 		}
 		launch(args);
 	}

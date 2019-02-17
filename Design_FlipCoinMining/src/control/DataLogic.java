@@ -371,11 +371,6 @@ public class DataLogic {
 				int i = 1;
 				stmt.setString(i++, uniqueAddress); // can't be null
 
-				if (uniqueAddress != null)
-					stmt.setString(i++, uniqueAddress);
-				else
-					stmt.setNull(i++, java.sql.Types.VARCHAR);
-
 				if (contactName != null)
 					stmt.setString(i++, contactName);
 				else
@@ -443,12 +438,7 @@ public class DataLogic {
 				int i = 1;
 
 
-				stmt.setString(i++, uniqueAddress); // can't be null
-
-				if (uniqueAddress != null)
-					stmt.setString(i++, uniqueAddress);
-				else
-					stmt.setNull(i++, java.sql.Types.VARCHAR);
+				//	stmt.setString(i++, uniqueAddress); // can't be null
 
 				if (contactName != null)
 					stmt.setString(i++, contactName);
@@ -464,7 +454,9 @@ public class DataLogic {
 					stmt.setString(i++, contactEmail);
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
+				
 				stmt.setString(i++, uniqueAddress);
+				
 				stmt.executeUpdate();
 				return true;
 
@@ -605,11 +597,11 @@ public class DataLogic {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
-					PreparedStatement stmt = conn.prepareStatement(Consts.SQL_Lottery_select);
+					PreparedStatement stmt = conn.prepareStatement(Consts.SQL_Lottery_selectAfterToday);
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new Lottery(rs.getInt(i++), rs.getDate(i++), rs.getInt(i++),
+					results.add(new Lottery(rs.getString(i++), rs.getDate(i++), rs.getInt(i++),
 							rs.getInt(i++), rs.getInt(i++)));
 				}
 			} catch (SQLException e) {
@@ -621,6 +613,36 @@ public class DataLogic {
 		return results;
 	}
 
+
+
+	/**
+	 * Get all Lotterys from DB file.
+	 * @return ArrayList of Lotterys.
+	 */
+	public HashMap<String,Lottery> getAllLotteriesHM() {
+		HashMap<String,Lottery> results = new HashMap<String,Lottery>();
+		try {
+			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+					PreparedStatement stmt = conn.prepareStatement(Consts.SQL_Lottery_selectAfterToday);
+					ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					int i = 1;
+
+					Lottery value = new Lottery(rs.getString(i++), rs.getDate(i++), rs.getInt(i++),
+							rs.getInt(i++), rs.getInt(i++));
+					String key = value.getLotteryNumber();
+
+					results.put(key, value);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
 
 
 	/**
@@ -770,7 +792,7 @@ public class DataLogic {
 				while (rs.next()) {
 					int i = 1;
 					results.add(new Miner(rs.getString(i++), rs.getString(i++), rs.getString(i++),
-							rs.getLong(i++), rs.getString(i++)));
+							rs.getDouble(i++), rs.getString(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -869,7 +891,7 @@ public class DataLogic {
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_Miner_update)) {
 				int i = 1;
 
-				stmt.setString(i++, uniqueAddress); // can't be null
+				//stmt.setString(i++, uniqueAddress); // can't be null
 
 				if (name != null)
 					stmt.setString(i++, name);
@@ -922,7 +944,7 @@ public class DataLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new Participant(rs.getInt(i++), rs.getString(i++), rs.getBoolean(i++)));
+					results.add(new Participant(rs.getString(i++), rs.getString(i++), rs.getBoolean(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -934,24 +956,45 @@ public class DataLogic {
 	}
 
 
+	/**
+	 * Get sum of participants.
+	 * @return ArrayList of Participants.
+	 */
+	public int getSumOfParticipantsInLottery(String lottery) {
+		int results = 0;
+		try {
+			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+					PreparedStatement stmt = conn.prepareStatement(Consts.SQL_Participant_selectSumOfParticipantsInLottery(lottery));
+					ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					int i = 1;
+					results = rs.getInt(i++);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+
 
 	/**
 	 * Add a new Participant with the parameters received from the form.
 	 * @return true if the insertion was successful, else - return false.
 	 */
-	public boolean addParticipant(Integer lotteryNumber, String uniqueAddress, Boolean isWinner) {
+	public boolean addParticipant(String lotteryNumber, String uniqueAddress, Boolean isWinner) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_Participant_insert)) {
 
 				int i = 1;
-				stmt.setInt(i++, lotteryNumber); // can't be null
+				stmt.setString(i++, lotteryNumber); // can't be null
 				stmt.setString(i++, uniqueAddress); // can't be null
-				if (isWinner != null)
-					stmt.setBoolean(i++, isWinner);
-				else
-					stmt.setNull(i++, java.sql.Types.VARCHAR);
+				stmt.setBoolean(i++, isWinner); // can't be null
 
 				stmt.executeUpdate();
 				return true;
@@ -971,14 +1014,15 @@ public class DataLogic {
 	 * @param ParticipantID - the Participant to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
-	public boolean removeParticipant(Integer lotteryNumber, String uniqueAddress) {
+	public boolean removeParticipant(String lotteryNumber, String uniqueAddress) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
-					CallableStatement stmt = conn.prepareCall(Consts.SQL_Participant_delete)) {
+					CallableStatement stmt = conn.prepareCall(Consts.SQL_Participant_deleteParticipant)) {
 
-				stmt.setLong(1, lotteryNumber);
+				stmt.setString(1, lotteryNumber);
 				stmt.setString(2, uniqueAddress);
+
 				stmt.executeUpdate();
 				return true;
 
@@ -1057,7 +1101,33 @@ public class DataLogic {
 		return results;
 	}
 
+	public HashMap<Integer,Riddle> getAllRiddlesHM(){
+		HashMap<Integer, Riddle> results = new HashMap<Integer, Riddle>();
+		try {
+			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+					PreparedStatement stmt = conn.prepareStatement(Consts.SQL_Riddle_select);
+					ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					int i = 1;
 
+					Riddle value = new Riddle (rs.getInt(i++), rs.getDate(i++), rs.getDate(i++), 
+							rs.getString(i++), rs.getInt(i++), rs.getString(i++), rs.getInt(i++));
+
+					Integer key = value.getRiddleNumber();
+
+					results.put(key, value);
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return results;
+
+	}
 
 	/**
 	 * Add a new Riddle with the parameters received from the form.
@@ -1154,7 +1224,7 @@ public class DataLogic {
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_Riddle_update)) {
 				int i = 1;
 
-				stmt.setInt(i++, riddleNumber); // can't be null
+				//stmt.setInt(i++, riddleNumber); // can't be null
 
 
 				if (publishDate != null)
@@ -1188,7 +1258,7 @@ public class DataLogic {
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
 
-				stmt.setLong(i++, riddleNumber);
+				stmt.setInt(i++, riddleNumber);
 				stmt.executeUpdate();
 				return true;
 
@@ -1202,6 +1272,39 @@ public class DataLogic {
 	}
 
 
+
+
+	/**
+	 * Edit an existed Riddle with the parameters received from the form.
+	 * @return true if the update was successful, else - return false.
+	 *  
+	 */
+	public boolean editRiddleStatus (int riddleNumber, String status) {
+		try {
+			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+					CallableStatement stmt = conn.prepareCall(Consts.SQL_Riddle_updateStatus)) {
+				int i = 1;
+
+				//stmt.setInt(i++, riddleNumber); // can't be null
+
+				if (status != null)
+					stmt.setString(i++, status);
+				else
+					stmt.setNull(i++, java.sql.Types.VARCHAR);
+
+				stmt.setInt(i++, riddleNumber);
+				stmt.executeUpdate();
+				return true;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 
 
@@ -1486,7 +1589,7 @@ public class DataLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new SolvedRiddle(rs.getString(i++), rs.getInt(i++), rs.getDate(i++)));
+					results.add(new SolvedRiddle(rs.getString(i++), rs.getInt(i++), rs.getInt(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -1,25 +1,35 @@
 package boundary;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import control.DataLogic;
 import entity.Riddle;
+import entity.Solution;
+import entity.SolvedRiddle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 
 public class RiddlesController {
 
 	private String currentMinerAddress = "a111"; //the current miner that  is logged in UPDATE
 
-	private ArrayList<Riddle> allRiddlesList= DataLogic.getInstance().getAllRiddles();
+	private HashMap<Integer,Riddle> allRiddlesList= DataLogic.getInstance().getAllRiddlesHM();
 
+	private ArrayList<Solution> allSolutionsList= DataLogic.getInstance().getAllSolutions();
 
 
 	@FXML
@@ -102,26 +112,120 @@ public class RiddlesController {
 	@FXML
 	void sendRiddleSolution() {
 
+
+		int riddleID = Integer.valueOf(tf_number.getText());
+		String solutionUser = tf_riddleSolution.getText();
+
+		// Check if answer exists	
+		if (solutionUser.equals("")) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("No solution");
+			alert.setContentText("No Solution! Please enter your solution");
+			alert.initModality(Modality.APPLICATION_MODAL);
+			alert.showAndWait();
+		}
+		
+		// check if answer correct
+		else {
+
+			boolean correct = false;
+
+			// Iterate over all solutions if check if user right or wrong
+			for (Solution s : allSolutionsList) {
+				if (s.getRiddleNumber()==riddleID) {
+					if (s.getResult().equals(solutionUser)) {		
+						correct = true;
+					}
+				}
+			}
+
+			// if solution is not correct, alert
+			if (!correct) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Wrong solution");
+				alert.setContentText("Wrong Solution! Please try again");
+				alert.initModality(Modality.APPLICATION_MODAL);
+				alert.showAndWait();
+			}
+
+			// if solution is correct
+			else {
+
+
+				Date now = new Date();
+				// calc the user solving time
+				// TODO
+
+
+
+				// update riddle solving time in db
+				// TODO
+
+
+				// create new block
+				// TODO
+
+				// change riddle status to closed 
+				DataLogic.getInstance().editRiddleStatus(riddleID,
+						"Closed");
+
+				// alert
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Correct solution");
+				alert.setContentText("Correct Solution!");
+				alert.initModality(Modality.APPLICATION_MODAL);
+				alert.showAndWait();
+
+
+				// refresh riddles table
+				setAllRiddlesTable();
+			}
+
+		}
 	}
+
 
 	@FXML
 	void watchRiddleDetails() {
 
 		int riddleNumber = tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleNumber();
 
-		tf_number.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleNumber()));
+		int riddleID = tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleNumber();
 
-		tf_riddleDescription.setText(allRiddlesList.get(riddleNumber).getDescription());
+		// Check if you can answer this riddle
+		// Check status
+		if (allRiddlesList.get(riddleID).getStatus().equals("Closed")) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Riddle Closed");
+			alert.setContentText("Riddle has alreay been answered");
+			alert.initModality(Modality.APPLICATION_MODAL);
+			alert.showAndWait();
+		}
 
-		tf_publishDate.setText(tbl_allRiddles.getSelectionModel().getSelectedItem().getPublishDate().toString());
 
-		tf_publishHour.setText(tbl_allRiddles.getSelectionModel().getSelectedItem().getPublishHour().toString());
+		// Check time
+		else if (allRiddlesList.get(riddleID).getSolutionTime()<0){
+			// TODO
+			// publish date & time + solution time > today
+		}
 
-		tf_solutionTime.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getSolutionTime()));
+		else {		
 
-		tf_level.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleLevel()));
+			tf_number.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleNumber()));
+
+			tf_riddleDescription.setText(allRiddlesList.get(riddleNumber).getDescription());
+
+			tf_publishDate.setText(tbl_allRiddles.getSelectionModel().getSelectedItem().getPublishDate().toString());
+
+			tf_publishHour.setText(tbl_allRiddles.getSelectionModel().getSelectedItem().getPublishHour().toString());
+
+			tf_solutionTime.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getSolutionTime()));
+
+			tf_level.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleLevel()));
+		}
 
 
 	}
+
 
 }

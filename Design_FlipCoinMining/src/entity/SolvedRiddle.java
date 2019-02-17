@@ -7,10 +7,10 @@ public class SolvedRiddle {
 	
 	private final String uniqueAddress;
 	private final int riddleNumber;
-	private Date time;
+	private int time;
 	
 	
-	public SolvedRiddle(String uniqueAddress, int riddleNumber, Date time) {
+	public SolvedRiddle(String uniqueAddress, int riddleNumber, int time) {
 		super();
 		this.uniqueAddress = uniqueAddress;
 		this.riddleNumber = riddleNumber;
@@ -18,12 +18,12 @@ public class SolvedRiddle {
 	}
 
 
-	public Date getTime() {
+	public int getTime() {
 		return time;
 	}
 
 
-	public void setTime(Date time) {
+	public void setTime(int time) {
 		this.time = time;
 	}
 

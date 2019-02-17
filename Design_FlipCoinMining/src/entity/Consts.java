@@ -30,6 +30,11 @@ public final class Consts {
 	private static String getDBPath() {
 		try {
 			String path = Consts.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+			
+			String pathSrc = path.substring(0, path.length()-4)+"src";
+			
+			System.out.println(pathSrc);
+		
 			String decoded = URLDecoder.decode(path, "UTF-8");
 			if (decoded.contains(".jar")) {
 				decoded = decoded.substring(0, decoded.lastIndexOf('/'));
@@ -69,8 +74,17 @@ public final class Consts {
 
 	public static final String SQL_BusinessCompany_select = "Select * FROM tblBusinessCompany";
 	public static final String SQL_BusinessCompany_delete =  "{ call qryBusinessCompanyDelete(?,?,?) }";
-	public static final String SQL_BusinessCompany_insert =  "{ call qryBusinessCompanyInsert(?,?,?) }";
-	public static final String SQL_BusinessCompany_update =  "{ call qryBusinessCompanyUpdate(?,?,?,?) }";
+	//public static final String SQL_BusinessCompany_insert =  "{ call qryBusinessCompanyInsert(?,?,?,?) }";
+	//public static final String SQL_BusinessCompany_update =  "{ call qryBusinessCompanyUpdate(?,?,?,?) }";
+	
+	public static final String SQL_BusinessCompany_insert =  ""
+			+ "INSERT INTO tblBusinessCompany ( uniqueAddress, contactName, contactPhone, contactEmail ) "
+			+ "VALUES (?, ?, ?, ?);";
+	
+	public static final String SQL_BusinessCompany_update = ""
+			+ "UPDATE tblBusinessCompany SET tblBusinessCompany.contactName = ?, tblBusinessCompany.contactPhone = ?, tblBusinessCompany.contactEmail = ? "
+			+ "WHERE (tblBusinessCompany.uniqueAddress = ?);";
+	
 	
 	//----------------------------------------- GetBonus Queries -------------------------------------
 
@@ -86,19 +100,76 @@ public final class Consts {
 	public static final String SQL_Lottery_insert =  "{ call qryLotteryInsert(?,?,?) }";
 	public static final String SQL_Lottery_update =  "{ call qryLotteryUpdate(?,?,?,?,?) }";
 	
+	public static final String SQL_Lottery_selectAvailable = 
+	"SELECT qryLotteryAvailableSelect.CountOfParticipants, qryLotteryAvailableSelect.lotteryNumber, qryLotteryAvailableSelect.Date, qryLotteryAvailableSelect.maxParticipants, qryLotteryAvailableSelect.numberOfWinners, qryLotteryAvailableSelect.numberOfBonuses\r\n" + 
+	"FROM qryLotteryAvailableSelect\r\n" + 
+	"WHERE (((qryLotteryAvailableSelect.CountOfParticipants)<[qryLotteryAvailableSelect].[maxParticipants]));\r\n" + 
+	"";
+	
+	public static final String SQL_Lottery_selectAfterToday = "SELECT tblLottery.lotteryNumber, tblLottery.date, tblLottery.maxParticipants, tblLottery.numberOfWinners, tblLottery.numberOfBonuses\r\n" + 
+			"FROM tblLottery\r\n" + 
+			"WHERE (((tblLottery.date)>Date()));\r\n" + 
+			"";;
+	
 	//----------------------------------------- Miner Queries -------------------------------------
 
 	public static final String SQL_Miner_select = "Select * FROM tblMiner";
 	public static final String SQL_Miner_delete =  "{ call qryMinerDelete(?,?,?) }";
 	public static final String SQL_Miner_insert =  "{ call qryMinerInsert(?,?,?) }";
-	public static final String SQL_Miner_update =  "{ call qryMinerUpdate(?,?,?,?,?) }";
+	
+	public static final String SQL_Miner_update = ""
+			+ "UPDATE tblMiner SET tblMiner.name = ?, tblMiner.password = ?, tblMiner.digitalProfit = ?, tblMiner.email = ? "
+			+ "WHERE (tblMiner.uniqueAddress = ?);";
+	
 	
 	//----------------------------------------- Participant Queries -------------------------------------
 
 	public static final String SQL_Participant_select = "Select * FROM tblParticipant";
-	public static final String SQL_Participant_delete =  "{ call qryParticipantDelete(?,?,?) }";
-	public static final String SQL_Participant_insert =  "{ call qryParticipantInsert(?,?,?) }";
+	public static final String SQL_Participant_delete =  "{ call qryParticipantDelete(?,?) }";
+	//public static final String SQL_Participant_insert =  "{ call qryParticipantInsert(?,?,?) }";
+	
+	
+	public static final String SQL_Participant_insert = ""
+			+ "INSERT INTO tblParticipant ( lotteryNumber, uniqueAddress, isWinner ) "
+			+ "VALUES (?, ?, ?);";
+	
 	public static final String SQL_Participant_update =  "{ call qryParticipantUpdate(?,?,?) }";
+	
+	
+	public static String SQL_Participant_selectSumOfParticipantsInLottery (String lottery) {
+		return ""
+			+ "SELECT Count(tblParticipant.uniqueAddress) AS CountOfuniqueAddress "
+			+ "FROM tblParticipant "
+			+ "WHERE (tblParticipant.lotteryNumber = \""
+			+ lottery
+			+ "\") "
+			+ "GROUP BY tblParticipant.lotteryNumber;";
+	}
+	
+	public static String SQL_Participant_deleteParticipant = "{ call qryParticipantUpdate(?,?) }";
+	
+//	public static String SQL_Participant_deleteParticipant =""
+//					+ "DELETE tblParticipant.lotteryNumber, tblParticipant.uniqueAddress, tblParticipant.isWinner "
+//					+ "FROM tblParticipant "
+//					+ "WHERE (((tblParticipant.lotteryNumber) = ?) AND ((tblParticipant.uniqueAddress) = ?));";
+//			
+			
+		/*	
+	""
+	+ "UPDATE tblRiddle "
+	+ "SET tblRiddle.status = ? "
+	+ "WHERE tblRiddle.riddleNumber = ?;";
+			*/
+//			
+//			""
+//			+ "DELETE tblParticipant.lotteryNumber, tblParticipant.uniqueAddress, tblParticipant.isWinner"
+//			+ "FROM tblParticipant "
+//			+ "WHERE (((tblParticipant.lotteryNumber) = \""
+//			+ lotteryNumber
+//			+ "\") AND ((tblParticipant.uniqueAddress) = \""
+//			+ uniqueAddress
+//			+ "\"));";
+//}
 	
 	//----------------------------------------- Riddle Queries -------------------------------------
 
@@ -106,6 +177,14 @@ public final class Consts {
 	public static final String SQL_Riddle_delete =  "{ call qryRiddleDelete(?,?,?) }";
 	public static final String 	SQL_Riddle_insert =  "{ call qryRiddleInsert(?,?,?) }";
 	public static final String SQL_Riddle_update =  "{ call qryRiddleUpdate(?,?,?,?,?,?,?) }";
+	
+	
+	public static final String SQL_Riddle_updateStatus =
+	""
+	+ "UPDATE tblRiddle "
+	+ "SET tblRiddle.status = ? "
+	+ "WHERE tblRiddle.riddleNumber = ?;";
+	//"{ call qryRiddleStatusUpdate(?,?) }";
 	
 	//----------------------------------------- RiddleLevel Queries -------------------------------------
 

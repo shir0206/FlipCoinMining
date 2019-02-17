@@ -10,7 +10,7 @@ public class Miner {
 	
 
 	
-	public Miner(String uniqueAddress, String name, String password, long digitalProfit, String email) {
+	public Miner(String uniqueAddress, String name, String password, double digitalProfit, String email) {
 		super();
 		this.uniqueAddress = uniqueAddress;
 		this.name = name;
@@ -24,7 +24,7 @@ public class Miner {
 		this.uniqueAddress = uniqueAddress;
 	}
 	
-	public String getname() {
+	public String getName() {
 		return name;
 	}
 	
@@ -56,7 +56,7 @@ public class Miner {
 		this.digitalProfit = digitalProfit;
 	}
 	
-	public String getuniqueAddress() {
+	public String getUniqueAddress() {
 		return uniqueAddress;
 	}
 

@@ -2,12 +2,12 @@ package entity;
 
 public class Participant {
 	
-	private final int lotteryNumber;
+	private final String lotteryNumber;
 	private final String uniqueAddress;
 	private boolean isWinner;
 	
 	
-	public Participant(int lotteryNumber, String uniqueAddress, boolean isWinner) {
+	public Participant(String lotteryNumber, String uniqueAddress, boolean isWinner) {
 		super();
 		this.lotteryNumber = lotteryNumber;
 		this.uniqueAddress = uniqueAddress;
@@ -25,7 +25,7 @@ public class Participant {
 	}
 
 
-	public int getLotteryNumber() {
+	public String getLotteryNumber() {
 		return lotteryNumber;
 	}
 

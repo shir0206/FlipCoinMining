@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -16,31 +15,31 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="430.0" layoutX="27.0" layoutY="35.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="392.0" layoutX="27.0" layoutY="487.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
             <Label layoutX="116.0" layoutY="578.0" text="Lottery Number" />
-            <TextField fx:id="tf_number" layoutX="288.0" layoutY="573.0" />
-            <Label layoutX="116.0" layoutY="672.0" text="Max Participants" />
-            <Label layoutX="116.0" layoutY="720.0" text="Number of Winners" />
-            <Label layoutX="116.0" layoutY="766.0" text="Number of Bonuses" />
-            <TextField fx:id="tf_publishDate" layoutX="288.0" layoutY="667.0" />
-            <TextField fx:id="tf_publishHour" layoutX="288.0" layoutY="715.0" />
-            <TextField fx:id="tf_solutionTime" layoutX="288.0" layoutY="761.0" />
+            <TextField fx:id="tf_number" editable="false" layoutX="288.0" layoutY="573.0" />
+            <Label layoutX="617.0" layoutY="578.0" text="Max Participants" />
+            <Label layoutX="117.0" layoutY="678.0" text="Number of Winners" />
+            <Label layoutX="117.0" layoutY="724.0" text="Number of Bonuses" />
+            <TextField fx:id="tf_maxParticipants" editable="false" layoutX="930.0" layoutY="559.0" />
+            <TextField fx:id="tf_winners" editable="false" layoutX="289.0" layoutY="673.0" />
+            <TextField fx:id="tf_bonusesNum" editable="false" layoutX="289.0" layoutY="719.0" />
             <Label layoutX="116.0" layoutY="621.0" text="Date" />
-            <TextField fx:id="tf_level" layoutX="288.0" layoutY="618.0" />
+            <TextField fx:id="tf_date" editable="false" layoutX="288.0" layoutY="618.0" />
             <Button fx:id="btn_select" layoutX="552.0" layoutY="412.0" mnemonicParsing="false" onMouseClicked="#watchLotteryDetails" prefWidth="100.0" text="Select" />
             <Label layoutX="117.0" layoutY="521.0" text="Sign up to the lottery to recieve bonuses" />
             <TableView fx:id="tbl_allLotteries" layoutX="117.0" layoutY="118.0" prefHeight="274.0" prefWidth="1000.0">
               <columns>
-                <TableColumn fx:id="col_allLotteries_number" prefWidth="200.0" text="Lottery Number" />
-                <TableColumn fx:id="col_allLotteries_date" prefWidth="200.0" text="Date" />
-                  <TableColumn fx:id="col_allLotteries_maxParticipants" prefWidth="200.0" text="Max Participants" />
-                  <TableColumn fx:id="col_allLotteries_numberOfWinners" prefWidth="200.0" text="Number of Winners" />
-                  <TableColumn fx:id="col_allLotteries_numberOfBonuses" prefWidth="200.0" text="Number of Bonuses" />
+                <TableColumn fx:id="col_allLotteries_number" prefWidth="190.0" text="Lottery Number" />
+                <TableColumn fx:id="col_allLotteries_date" prefWidth="190.0" text="Date" />
+                  <TableColumn fx:id="col_allLotteries_maxParticipants" prefWidth="190.0" text="Max Participants" />
+                  <TableColumn fx:id="col_allLotteries_numberOfWinners" prefWidth="190.0" text="Number of Winners" />
+                  <TableColumn fx:id="col_allLotteries_numberOfBonuses" prefWidth="190.0" text="Number of Bonuses" />
               </columns>
             </TableView>
             <Label layoutX="117.0" layoutY="71.0" text="All available lotteries in the system" />
             <Button fx:id="btn_signUp" layoutX="617.0" layoutY="830.0" mnemonicParsing="false" onMouseClicked="#signUpLottery" prefWidth="100.0" text="Sign Up" />
-            <ListView fx:id="lv_bonusesInLottery" layoutX="710.0" layoutY="616.0" prefHeight="182.0" prefWidth="344.0" />
-            <Label layoutX="710.0" layoutY="579.0" text="Bonuses Details" />
             <Button fx:id="btn_cancel" layoutX="483.0" layoutY="830.0" mnemonicParsing="false" onMouseClicked="#cancelLottery" prefWidth="100.0" text="Cancel" />
+            <Label layoutX="617.0" layoutY="623.0" text="Number Of Registred Participants" />
+            <TextField fx:id="tf_regParticipants" editable="false" layoutX="930.0" layoutY="618.0" />
          </children>
       </AnchorPane>
    </children>

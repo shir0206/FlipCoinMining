@@ -65,6 +65,7 @@ public class BlockController {
 	@FXML
 	private TextField tf_creationHour;
 
+	
 	@FXML
 	private TableView<Transaction> tbl_transInBlock;
 
@@ -314,7 +315,7 @@ public class BlockController {
 
 		else  {
 			for (Transaction t : transactions) {
-				Transaction transaction = new Transaction(t.getID(), t.getSize(), t.getType(), t.getfee());
+				Transaction transaction = new Transaction(t.getID(), t.getSize(), t.getType(), t.getFee());
 
 				if (allTransactionsInBlock.contains(transaction)) {
 					allTransactionsInBlock.get(allTransactionsInBlock.indexOf(transaction)).setblockAddress(blockID);
@@ -377,7 +378,7 @@ public class BlockController {
 
 		else  {
 			for (Transaction t : transactions) {
-				Transaction transaction = new Transaction(t.getID(), t.getSize(), t.getType(), t.getfee());
+				Transaction transaction = new Transaction(t.getID(), t.getSize(), t.getType(), t.getFee());
 
 				if (allAvailableTransactions.contains(transaction)) {
 					allAvailableTransactions.get(allAvailableTransactions.indexOf(transaction)).setblockAddress("");

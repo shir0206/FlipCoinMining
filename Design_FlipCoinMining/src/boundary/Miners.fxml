@@ -33,8 +33,8 @@
             <Label layoutX="117.0" layoutY="489.0" text="Current miner details" />
             <TableView fx:id="tbl_allMiners" layoutX="117.0" layoutY="118.0" prefHeight="274.0" prefWidth="1000.0">
               <columns>
-                <TableColumn fx:id="col_allMiners_username" prefWidth="500.0" text="Username" />
-                <TableColumn fx:id="col_allMiners_digitalProfit" prefWidth="500.0" text="Digital Profit" />
+                <TableColumn fx:id="col_allMiners_username" prefWidth="490.0" text="Username" />
+                <TableColumn fx:id="col_allMiners_digitalProfit" prefWidth="490.0" text="Digital Profit" />
               </columns>
             </TableView>
             <Label layoutX="117.0" layoutY="71.0" text="All miners in the system" />

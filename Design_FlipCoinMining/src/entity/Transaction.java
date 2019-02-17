@@ -69,7 +69,7 @@ public class Transaction {
 		this.type = type;
 	}
 
-	public Double getfee() {
+	public Double getFee() {
 		return fee;
 	}
 

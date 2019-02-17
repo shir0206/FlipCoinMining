@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class Lottery {
 	
-	private final int lotteryNumber;
+	private final String lotteryNumber;
 	private Date date;
 	private int maxParticipants;
 	private int numberOfWinners;
 	private int numberOfBonuses;
 	
-	public Lottery(int lotteryNumber, Date date, int maxParticipants, int numberOfWinners, int numberOfBonuses) {
+	public Lottery(String lotteryNumber, Date date, int maxParticipants, int numberOfWinners, int numberOfBonuses) {
 		super();
 		this.lotteryNumber = lotteryNumber;
 		this.date = date;
@@ -51,7 +51,7 @@ public class Lottery {
 		this.numberOfBonuses = numberOfBonuses;
 	}
 
-	public int getLotteryNumber() {
+	public String getLotteryNumber() {
 		return lotteryNumber;
 	}
 

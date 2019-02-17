@@ -61,7 +61,7 @@ public class HomeController {
 	@FXML
 	void openMinersWindow(MouseEvent event) throws IOException {
 		
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Miners.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OtherMiners.fxml"));
 		Parent root1 = (Parent) fxmlLoader.load();
 		Stage stage = new Stage();
 		stage.setScene(new Scene(root1));  
@@ -72,7 +72,7 @@ public class HomeController {
 	/**
 	 * This method opens 'Profile' window from 'Home' window
 	 */
-	@FXML//WHY NOT WORKING????????????????????????????????????????????????????????????????????????????
+	@FXML
 	void openProfileWindow(MouseEvent event) throws IOException { 
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Profile.fxml"));

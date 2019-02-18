@@ -3,6 +3,7 @@ package boundary;
 import java.util.ArrayList;
 
 import control.DataLogic;
+import entity.Consts;
 import entity.Lottery;
 import entity.Miner;
 import entity.Participant;
@@ -18,10 +19,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MinersController {
 
+	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
+	private boolean isWorker = Consts.isWorker;
+	
 	private ArrayList<Miner> allMiners= DataLogic.getInstance().getAllMiners();
-
-	private String currentMinerAddress = "a111"; //the current miner that  is logged in UPDATE
-
 	
     @FXML
     private TextField tf_username;

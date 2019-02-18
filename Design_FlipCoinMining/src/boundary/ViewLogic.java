@@ -98,7 +98,7 @@ public class ViewLogic {
 	protected static void newEmployeeWindow() {
 		Stage stage = new Stage();
 
-		newWindow(ViewLogic.class.getResource("Home.fxml"),
+		newWindow(ViewLogic.class.getResource("LogIn.fxml"),
 				stage, null, null, null, null, null, null, true, "Flip Coin Mining", false);
 	}
 }

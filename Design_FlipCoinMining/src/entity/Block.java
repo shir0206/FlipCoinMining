@@ -1,21 +1,20 @@
 package entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Block {
 	
 	private final String ID;
-	private Date creationDate;
-	private Date creationHour;
+	private Timestamp creationDate;
 	private int size;
 	private String previousBlock;
 	private String minerAddress;
 	
-	public Block(String ID, Date creationDate, Date creationHour, int size, String previousBlock, String minerAddress) {
+	public Block(String ID, Timestamp creationDate, int size, String previousBlock, String minerAddress) {
 		super();
 		this.ID = ID;
 		this.creationDate = creationDate;
-		this.creationHour = creationHour;
 		this.size = size;
 		this.previousBlock = previousBlock;
 
@@ -26,11 +25,11 @@ public class Block {
 		this.ID = ID;
 	}
 
-	public Date getCreationDate() {
+	public Timestamp getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(Timestamp creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -62,17 +61,11 @@ public class Block {
 		return ID;
 	}
 
-	public Date getCreationHour() {
-		return creationHour;
-	}
 
-	public void setCreationHour(Date creationHour) {
-		this.creationHour = creationHour;
-	}
 	
 	@Override
 	public String toString() {
-		return "Block [ID=" + ID + ", creationDate=" + creationDate + ", creationHour = " + creationHour + ", size=" + size + ", minerAddress=" + minerAddress
+		return "Block [ID=" + ID + ", creationDate=" + creationDate +  ", size=" + size + ", minerAddress=" + minerAddress
 				+ ", previousBlock=" + previousBlock + "]";
 	}
 

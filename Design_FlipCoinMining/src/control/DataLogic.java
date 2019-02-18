@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -28,6 +29,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.swing.JRViewer;
+
+
 
 public class DataLogic {
 
@@ -59,7 +62,7 @@ public class DataLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new Block(rs.getString(i++), rs.getDate(i++), rs.getDate(i++),
+					results.add(new Block(rs.getString(i++), rs.getTimestamp(i++),
 							rs.getInt(i++), rs.getString(i++), rs.getString(i++)));
 				}
 			} catch (SQLException e) {
@@ -72,12 +75,19 @@ public class DataLogic {
 	}
 
 
-
+	/*
+	 * 	
+	private final String ID;
+	private Timestamp creationDate;
+	private int size;
+	private String previousBlock;
+	private String minerAddress;
+	 */
 	/**
 	 * Add a new Block with the parameters received from the form.
 	 * @return true if the insertion was successful, else - return false.
 	 */
-	public boolean addBlock(int ID, Date creationDate, Date creationHour, Integer size,
+	public boolean addBlock(String ID, Timestamp creationDate, Integer size,
 			String minerAddress, String previousBlock) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
@@ -86,15 +96,10 @@ public class DataLogic {
 
 				int i = 1;
 
-				stmt.setInt(i++, ID); // can't be null
+				stmt.setString(i++, ID); // can't be null
 
 				if (creationDate != null)
-					stmt.setDate(i++, new java.sql.Date(creationDate.getTime()));
-				else
-					stmt.setNull(i++, java.sql.Types.DATE);
-
-				if (creationHour != null)
-					stmt.setDate(i++, new java.sql.Date(creationHour.getTime()));
+					stmt.setTimestamp(i++, creationDate);
 				else
 					stmt.setNull(i++, java.sql.Types.DATE);
 
@@ -103,15 +108,9 @@ public class DataLogic {
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
 
-				if (minerAddress != null)
-					stmt.setString(i++, minerAddress);
-				else
-					stmt.setNull(i++, java.sql.Types.VARCHAR);
+				stmt.setString(i++, minerAddress);
 
-				if (previousBlock != null)
-					stmt.setString(i++, previousBlock);
-				else
-					stmt.setNull(i++, java.sql.Types.VARCHAR);
+				stmt.setString(i++, previousBlock);
 
 				stmt.executeUpdate();
 				return true;
@@ -454,9 +453,9 @@ public class DataLogic {
 					stmt.setString(i++, contactEmail);
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
-				
+
 				stmt.setString(i++, uniqueAddress);
-				
+
 				stmt.executeUpdate();
 				return true;
 
@@ -1089,8 +1088,8 @@ public class DataLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new Riddle(rs.getInt(i++), rs.getDate(i++), rs.getDate(i++), 
-							rs.getString(i++), rs.getInt(i++), rs.getString(i++), rs.getInt(i++)));
+					results.add(new Riddle(rs.getInt(i++), rs.getTimestamp(i++), 
+							rs.getString(i++), rs.getTimestamp(i++), rs.getString(i++), rs.getInt(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -1111,8 +1110,8 @@ public class DataLogic {
 				while (rs.next()) {
 					int i = 1;
 
-					Riddle value = new Riddle (rs.getInt(i++), rs.getDate(i++), rs.getDate(i++), 
-							rs.getString(i++), rs.getInt(i++), rs.getString(i++), rs.getInt(i++));
+					Riddle value = new Riddle (rs.getInt(i++), rs.getTimestamp(i++), 
+							rs.getString(i++), rs.getTimestamp(i++), rs.getString(i++), rs.getInt(i++));
 
 					Integer key = value.getRiddleNumber();
 
@@ -1589,7 +1588,7 @@ public class DataLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new SolvedRiddle(rs.getString(i++), rs.getInt(i++), rs.getInt(i++)));
+					results.add(new SolvedRiddle(rs.getString(i++), rs.getInt(i++), rs.getTimestamp(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -1606,7 +1605,7 @@ public class DataLogic {
 	 * Add a new SolvedRiddle with the parameters received from the form.
 	 * @return true if the insertion was successful, else - return false.
 	 */
-	public boolean addSolvedRiddle(String uniqueAddress, Integer riddleNumber, Date time) {
+	public boolean addSolvedRiddle(String uniqueAddress, Integer riddleNumber, Timestamp time) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -1617,7 +1616,7 @@ public class DataLogic {
 				stmt.setInt(i++, riddleNumber); // can't be null
 
 				if (time != null)
-					stmt.setDate(i++, new java.sql.Date(time.getTime()));
+					stmt.setTimestamp(i++, time);
 				else
 					stmt.setNull(i++, java.sql.Types.DATE);
 
@@ -1713,7 +1712,7 @@ public class DataLogic {
 				while (rs.next()) {
 					int i = 1;
 					results.add(new Transaction(rs.getString(i++), rs.getInt(i++), rs.getString(i++), 
-							rs.getDouble(i++), rs.getString(i++), rs.getDate(i++), rs.getDate(i++)));
+							rs.getDouble(i++), rs.getString(i++), rs.getTimestamp(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -1738,7 +1737,7 @@ public class DataLogic {
 				while (rs.next()) {
 					int i = 1;
 					results.add(new Transaction(rs.getString(i++), rs.getInt(i++), rs.getString(i++), 
-							rs.getDouble(i++), rs.getString(i++), rs.getDate(i++), rs.getDate(i++)));
+							rs.getDouble(i++), rs.getString(i++), rs.getTimestamp(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -1763,7 +1762,7 @@ public class DataLogic {
 				while (rs.next()) {
 					int i = 1;
 					results.add(new Transaction(rs.getString(i++), rs.getInt(i++), rs.getString(i++), 
-							rs.getDouble(i++), rs.getString(i++), rs.getDate(i++), rs.getDate(i++)));
+							rs.getDouble(i++), rs.getString(i++), rs.getTimestamp(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -2036,10 +2035,6 @@ public class DataLogic {
 				stmt.setNull(i++, java.sql.Types.VARCHAR);
 				stmt.setString(i++, trans.getID()); // can't be null
 
-				//				if (block.getID() != null)
-				//					stmt.setString(i++, block.getID());
-				//				else
-				//					stmt.setNull(i++, java.sql.Types.VARCHAR);	
 
 				stmt.executeUpdate();
 				return true;
@@ -2059,7 +2054,7 @@ public class DataLogic {
 	//----------------------------------------- Report Methods -------------------------------------
 
 
-	public void TransactionsPairsReport() throws  ClassNotFoundException, SQLException, JRException {
+	public void TransactionsPairsReport6() throws  ClassNotFoundException, SQLException, JRException {
 		Connection conn = DriverManager.getConnection(Consts.CONN_STR);
 		JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("../boundary/RepTransactionsPairs.jasper"), null, conn);
 		JFrame frame = new JFrame("Transactions Report");
@@ -2069,6 +2064,43 @@ public class DataLogic {
 		frame.setVisible(true);
 
 	}
+	
+	
+	
+	
+	/**
+	 * producing trans pairs report
+	 * @param date of the report
+	 * @return the report itself
+	 */
+	public JFrame TransactionsPairsReport() {
+		try {
+			Class.forName(Consts.JDBC_STR);
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR)){
+				JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("../boundary/RepTransactionsPairs.jasper"),
+						null, conn);
+					//	getClass().getResourceAsStream("../boundary/RepTransactionsPairs.jasper"),
+					//	getClass().getResourceAsStream("../boundary/TransactionPairsReport.jasper"),
+					//	null, conn);
+
+				JFrame frame = new JFrame("Transaction Status Report");
+				frame.getContentPane().add(new JRViewer(print));
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				frame.pack();
+				return frame;
+			}
+			catch (SQLException | JRException | NullPointerException e) {
+				e.printStackTrace();
+			}
+
+		}
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

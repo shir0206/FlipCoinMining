@@ -1,5 +1,6 @@
 package entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Transaction {
@@ -9,26 +10,23 @@ public class Transaction {
 	private String type;
 	private Double fee;
 	private String blockAddress;
-	private Date additionTime;
-	private Date additionDate; 
+	private Timestamp additionDate; 
 	
-	public Date getAdditionDate() {
+	public Timestamp getAdditionDate() {
 		return additionDate;
 	}
 
-	public void setAdditionDate(Date additionDate) {
+	public void setAdditionDate(Timestamp additionDate) {
 		this.additionDate = additionDate;
 	}
-//					results.add(new Transaction(rs.getInt(i++), rs.getInt(i++), rs.getString(i++), rs.getDouble(i++), rs.getString(i++), rs.getDate(i++), rs.getDate(i++)));
 
-	public Transaction(String ID, Integer size, String type, Double fee, String blockAddress, Date additionTime, Date additionDate) {
+	public Transaction(String ID, Integer size, String type, Double fee, String blockAddress, Timestamp additionDate) {
 		super();
 		this.ID = ID;
 		this.size = size;
 		this.type = type;
 		this.fee = fee;
 		this.blockAddress = blockAddress;
-		this.additionTime = additionTime;
 		this.additionDate = additionDate;
 	}
 
@@ -73,7 +71,7 @@ public class Transaction {
 		return fee;
 	}
 
-	public void setfee(double fee) {
+	public void setFee(double fee) {
 		this.fee = fee;
 	}
 
@@ -92,17 +90,8 @@ public class Transaction {
 	@Override
 	public String toString() {
 		return "Transaction [ID=" + ID + ", size=" + size + ", type=" + type + ", fee=" + fee
-				+ ", blockAddress=" + blockAddress + ", additionDate=" + additionDate + ", additionTime=" + additionTime + "]";
+				+ ", blockAddress=" + blockAddress + ", additionDate=" + additionDate + "]";
 	}
-
-	public Date getAdditionTime() {
-		return additionTime;
-	}
-
-	public void setAdditionTime(Date additionTime) {
-		this.additionTime = additionTime;
-	}
-
 
 		
 }

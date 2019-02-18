@@ -6,9 +6,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 import control.DataLogic;
+import entity.Block;
+import entity.Consts;
 import entity.Riddle;
+import entity.RiddleLevel;
 import entity.Solution;
 import entity.SolvedRiddle;
 import javafx.collections.FXCollections;
@@ -25,12 +31,18 @@ import javafx.stage.Modality;
 
 public class RiddlesController {
 
-	private String currentMinerAddress = "a111"; //the current miner that  is logged in UPDATE
+	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
+	private boolean isWorker = Consts.isWorker;
 
-	private HashMap<Integer,Riddle> allRiddlesList= DataLogic.getInstance().getAllRiddlesHM();
+	private HashMap<Integer,Riddle> allRiddles = DataLogic.getInstance().getAllRiddlesHM();
 
-	private ArrayList<Solution> allSolutionsList= DataLogic.getInstance().getAllSolutions();
+	private ArrayList<Solution> allSolutions = DataLogic.getInstance().getAllSolutions();
 
+	private ArrayList<RiddleLevel>  allLevels = DataLogic.getInstance().getAllRiddleLevels();
+
+	private ArrayList<Block> allBlocks = DataLogic.getInstance().getAllBlocks();
+
+	private ArrayList<Block> allCurrentMinerBlocks = new ArrayList<Block>();
 
 	@FXML
 	private TextField tf_number;
@@ -60,13 +72,10 @@ public class RiddlesController {
 	private TableColumn<Riddle, Integer> col_allRiddles_number;
 
 	@FXML
-	private TableColumn<Riddle, Date> col_allRiddles_publishDate;
+	private TableColumn<Riddle, Timestamp> col_allRiddles_publishDate;
 
 	@FXML
-	private TableColumn<Riddle, Date> col_allRiddles_publishHour;
-
-	@FXML
-	private TableColumn<Riddle, Integer> col_allRiddles_solutionTime;
+	private TableColumn<Riddle, Timestamp> col_allRiddles_solutionTime;
 
 	@FXML
 	private TableColumn<Riddle, Integer> col_allRiddles_level;
@@ -88,7 +97,6 @@ public class RiddlesController {
 
 		col_allRiddles_number.setCellValueFactory(new PropertyValueFactory<>("riddleNumber"));
 		col_allRiddles_publishDate.setCellValueFactory(new PropertyValueFactory<>("publishDate"));
-		col_allRiddles_publishHour.setCellValueFactory(new PropertyValueFactory<>("publishHour"));
 		col_allRiddles_solutionTime.setCellValueFactory(new PropertyValueFactory<>("solutionTime"));
 		col_allRiddles_level.setCellValueFactory(new PropertyValueFactory<>("riddleLevel"));
 		col_allRiddles_status.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -114,7 +122,17 @@ public class RiddlesController {
 
 
 		int riddleID = Integer.valueOf(tf_number.getText());
+		int solutionID;
 		String solutionUser = tf_riddleSolution.getText();
+
+		// calc the user solving time
+		Timestamp currentTime = Consts.getCurrentTimeStamp();
+		Timestamp solutionTime = allRiddles.get(riddleID).getSolutionTime();
+		long diffTime = solutionTime.getTime() - currentTime.getTime();
+		System.out.println(diffTime);
+		//long diffTime = (Date)solutionTime.getTime() - (Date)currentTime.getTime();
+
+
 
 		// Check if answer exists	
 		if (solutionUser.equals("")) {
@@ -124,64 +142,118 @@ public class RiddlesController {
 			alert.initModality(Modality.APPLICATION_MODAL);
 			alert.showAndWait();
 		}
-		
+
 		// check if answer correct
 		else {
 
 			boolean correct = false;
 
 			// Iterate over all solutions if check if user right or wrong
-			for (Solution s : allSolutionsList) {
+			for (Solution s : allSolutions) {
 				if (s.getRiddleNumber()==riddleID) {
 					if (s.getResult().equals(solutionUser)) {		
 						correct = true;
+						solutionID = s.getSolutionNumber();
+						break;
 					}
 				}
 			}
 
 			// if solution is not correct, alert
 			if (!correct) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Wrong solution");
-				alert.setContentText("Wrong Solution! Please try again");
-				alert.initModality(Modality.APPLICATION_MODAL);
-				alert.showAndWait();
+				incorrectSolution();
+				return;
 			}
 
 			// if solution is correct
-			else {
+			// if solved in time
+			if (diffTime<0) {
 
-
-				Date now = new Date();
-				// calc the user solving time
-				// TODO
-
-
-
-				// update riddle solving time in db
-				// TODO
-
-
-				// create new block
-				// TODO
+				//alert
+				timeOut();
 
 				// change riddle status to closed 
-				DataLogic.getInstance().editRiddleStatus(riddleID,
-						"Closed");
-
-				// alert
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Correct solution");
-				alert.setContentText("Correct Solution!");
-				alert.initModality(Modality.APPLICATION_MODAL);
-				alert.showAndWait();
-
-
-				// refresh riddles table
-				setAllRiddlesTable();
+				DataLogic.getInstance().editRiddleStatus(riddleID, "Closed");
+				return;
 			}
 
+			SolvedRiddle solvedRiddle = new SolvedRiddle(currentMinerAddress, riddleID, currentTime);
+			DataLogic.getInstance().addSolvedRiddle(currentMinerAddress, riddleID, currentTime);
+
+
+
+			// update riddle solving time in db
+			// TODO
+
+
+			// create new block
+			String blockID;
+			String previousBlock;
+
+			// get all miner blocks
+			for (Block b : allBlocks) {
+				if (b.getMinerAddress().equals(currentMinerAddress))
+					allCurrentMinerBlocks.add(b);
+			}
+
+			if (allCurrentMinerBlocks.isEmpty() || allCurrentMinerBlocks==null) {
+				previousBlock = null;
+				blockID = "b" + currentMinerAddress.substring(0, currentMinerAddress.length()-1) + "00";
+			}
+				
+			else {
+			// get last block address
+			previousBlock = allCurrentMinerBlocks.get((allCurrentMinerBlocks.size()-1)).getID();
+
+			blockID = "b" + (Integer.parseInt(previousBlock.substring(1)) + 1);
+			}
+
+			// calc block size
+			int level = allRiddles.get(riddleID).getRiddleLevel();
+			int blockSize = 0;
+
+			for (RiddleLevel l : allLevels) {
+				if (l.getLevelCode() == level)
+					blockSize = l.getBlockSize();
+			}
+
+
+			System.out.println(blockID + " "+ currentTime+ " "+  blockSize+ " "+ currentMinerAddress+ " "+ previousBlock);
+			// add block
+			DataLogic.getInstance().addBlock(blockID, currentTime, blockSize, currentMinerAddress, previousBlock);
+
+			// change riddle status to closed 
+			DataLogic.getInstance().editRiddleStatus(riddleID, "Closed");
+
+			// alert
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Correct solution");
+			alert.setContentText("Correct Solution!");
+			alert.initModality(Modality.APPLICATION_MODAL);
+			alert.showAndWait();
+
+			// refresh riddles table
+			setAllRiddlesTable();
 		}
+
+	}
+
+
+	void incorrectSolution() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Wrong solution");
+		alert.setContentText("Wrong Solution! Please try again");
+		alert.initModality(Modality.APPLICATION_MODAL);
+		alert.showAndWait();
+	}
+
+	void timeOut() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Time Out");
+		alert.setContentText("Time out");
+		alert.initModality(Modality.APPLICATION_MODAL);
+		alert.showAndWait();
+
 	}
 
 
@@ -194,7 +266,7 @@ public class RiddlesController {
 
 		// Check if you can answer this riddle
 		// Check status
-		if (allRiddlesList.get(riddleID).getStatus().equals("Closed")) {
+		if (allRiddles.get(riddleID).getStatus().equals("Closed")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Riddle Closed");
 			alert.setContentText("Riddle has alreay been answered");
@@ -204,22 +276,20 @@ public class RiddlesController {
 
 
 		// Check time
-		else if (allRiddlesList.get(riddleID).getSolutionTime()<0){
-			// TODO
-			// publish date & time + solution time > today
-		}
+		//else if (allRiddles.get(riddleID).getSolutionTime()<0){
+		// TODO
+		// publish date & time + solution time > today
+		//}
 
 		else {		
 
 			tf_number.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleNumber()));
 
-			tf_riddleDescription.setText(allRiddlesList.get(riddleNumber).getDescription());
+			tf_riddleDescription.setText(allRiddles.get(riddleNumber).getDescription());
 
 			tf_publishDate.setText(tbl_allRiddles.getSelectionModel().getSelectedItem().getPublishDate().toString());
 
-			tf_publishHour.setText(tbl_allRiddles.getSelectionModel().getSelectedItem().getPublishHour().toString());
-
-			tf_solutionTime.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getSolutionTime()));
+			tf_solutionTime.setText(tbl_allRiddles.getSelectionModel().getSelectedItem().getSolutionTime().toString());
 
 			tf_level.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleLevel()));
 		}

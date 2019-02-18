@@ -1,5 +1,6 @@
 package entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class SolvedRiddle {
@@ -7,10 +8,10 @@ public class SolvedRiddle {
 	
 	private final String uniqueAddress;
 	private final int riddleNumber;
-	private int time;
+	private Timestamp time;
 	
 	
-	public SolvedRiddle(String uniqueAddress, int riddleNumber, int time) {
+	public SolvedRiddle(String uniqueAddress, int riddleNumber, Timestamp time) {
 		super();
 		this.uniqueAddress = uniqueAddress;
 		this.riddleNumber = riddleNumber;
@@ -18,12 +19,12 @@ public class SolvedRiddle {
 	}
 
 
-	public int getTime() {
+	public Timestamp getTime() {
 		return time;
 	}
 
 
-	public void setTime(int time) {
+	public void setTime(Timestamp time) {
 		this.time = time;
 	}
 

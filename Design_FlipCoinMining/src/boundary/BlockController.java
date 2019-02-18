@@ -10,6 +10,7 @@ import java.util.Date;
 
 import control.DataLogic;
 import entity.Block;
+import entity.Consts;
 import entity.Transaction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,8 +29,9 @@ import net.sf.jasperreports.engine.JRException;
 
 public class BlockController {
 
-	private String currentMinerAddress = "a111"; //the current miner that  is logged in UPDATE
-
+	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
+	private boolean isWorker = Consts.isWorker;
+	
 	private ArrayList<Block> allBlocks;
 	private ArrayList<Block> allCurrentMinerBlocks = new ArrayList<Block>();
 

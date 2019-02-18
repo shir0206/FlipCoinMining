@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import control.DataLogic;
 import entity.BusinessCompany;
+import entity.Consts;
 import entity.Miner;
 import entity.Participant;
 import javafx.collections.FXCollections;
@@ -20,6 +21,9 @@ import javafx.scene.input.MouseEvent;
 
 public class OtherMinersController {
 
+	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
+	private boolean isWorker = Consts.isWorker;
+	
 	private ArrayList<Miner> allMiners = DataLogic.getInstance().getAllMiners();
 	private ArrayList<BusinessCompany> allBussinessMiners= DataLogic.getInstance().getAllBusinessCompanys();
 	

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import control.DataLogic;
 import entity.Bonus;
+import entity.Consts;
 import entity.Lottery;
 import entity.Participant;
 import entity.Solution;
@@ -24,8 +25,8 @@ import javafx.stage.Modality;
 
 public class LotteriesController {
 
-	private String currentMinerAddress = "a111"; //the current miner that  is logged in UPDATE
-	//private boolean registred = false;
+	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
+	private boolean isWorker = Consts.isWorker;
 
 	private HashMap<String,Lottery> allLotteries= DataLogic.getInstance().getAllLotteriesHM();
 	private ArrayList<Participant> allParticipants= DataLogic.getInstance().getAllParticipants();

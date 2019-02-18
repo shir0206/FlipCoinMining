@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import control.DataLogic;
 import entity.BusinessCompany;
+import entity.Consts;
 import entity.Miner;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -17,9 +18,11 @@ import javafx.stage.Modality;
 
 public class ProfileController {
 
+	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
+	private boolean isWorker = Consts.isWorker;
+	
 	private ArrayList<Miner> allMiners = DataLogic.getInstance().getAllMiners();
 	private ArrayList<BusinessCompany> allBussinessMiners= DataLogic.getInstance().getAllBusinessCompanys();
-	private String currentMinerAddress = "a111"; //the current miner that  is logged in UPDATE
 
 
 

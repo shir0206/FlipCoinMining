@@ -15,33 +15,30 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="430.0" layoutX="27.0" layoutY="35.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="392.0" layoutX="27.0" layoutY="487.0" stroke="#00000059" strokeType="INSIDE" width="1150.0" />
             <Label layoutX="116.0" layoutY="578.0" text="Riddle Number" />
-            <Label layoutX="116.0" layoutY="732.0" text="Riddle Description" />
+            <Label layoutX="117.0" layoutY="706.0" text="Riddle Description" />
             <TextField fx:id="tf_number" editable="false" layoutX="253.0" layoutY="573.0" />
-            <TextField fx:id="tf_riddleDescription" editable="false" layoutX="253.0" layoutY="727.0" prefHeight="31.0" prefWidth="771.0" />
-            <Label layoutX="699.0" layoutY="568.0" text="Publish Date" />
-            <Label layoutX="699.0" layoutY="616.0" text="Publish Hour" />
-            <Label layoutX="699.0" layoutY="662.0" text="Solution Time" />
-            <TextField fx:id="tf_publishDate" editable="false" layoutX="836.0" layoutY="563.0" />
-            <TextField fx:id="tf_publishHour" editable="false" layoutX="836.0" layoutY="611.0" />
-            <TextField fx:id="tf_solutionTime" editable="false" layoutX="836.0" layoutY="657.0" />
+            <TextField fx:id="tf_riddleDescription" editable="false" layoutX="254.0" layoutY="701.0" prefHeight="31.0" prefWidth="771.0" />
+            <Label layoutX="699.0" layoutY="578.0" text="Publish Time" />
+            <Label layoutX="699.0" layoutY="621.0" text="Solution Time" />
+            <TextField fx:id="tf_publishDate" editable="false" layoutX="836.0" layoutY="573.0" />
+            <TextField fx:id="tf_solutionTime" editable="false" layoutX="836.0" layoutY="616.0" />
             <Label layoutX="116.0" layoutY="621.0" text="Level" />
             <TextField fx:id="tf_level" editable="false" layoutX="253.0" layoutY="618.0" />
             <Button fx:id="btn_select" layoutX="552.0" layoutY="412.0" mnemonicParsing="false" onMouseClicked="#watchRiddleDetails" prefWidth="100.0" text="Select" />
             <Label layoutX="117.0" layoutY="521.0" text="Solve the riddle to recieve a new block" />
             <TableView fx:id="tbl_allRiddles" layoutX="117.0" layoutY="118.0" prefHeight="274.0" prefWidth="1000.0">
               <columns>
-                <TableColumn fx:id="col_allRiddles_number" prefWidth="166.0" text="Riddle Number" />
-                <TableColumn fx:id="col_allRiddles_publishDate" prefWidth="166.0" text="Publish Date" />
-                  <TableColumn fx:id="col_allRiddles_publishHour" prefWidth="166.0" text="Publish Hour" />
-                  <TableColumn fx:id="col_allRiddles_solutionTime" prefWidth="166.0" text="Solution Time" />
-                  <TableColumn fx:id="col_allRiddles_level" prefWidth="166.0" text="Level" />
-                  <TableColumn fx:id="col_allRiddles_status" prefWidth="166.0" text="Status" />
+                <TableColumn fx:id="col_allRiddles_number" prefWidth="190.0" text="Riddle Number" />
+                <TableColumn fx:id="col_allRiddles_publishDate" prefWidth="190.0" text="Publish Time" />
+                  <TableColumn fx:id="col_allRiddles_solutionTime" prefWidth="190.0" text="Solution Time" />
+                  <TableColumn fx:id="col_allRiddles_level" prefWidth="190.0" text="Level" />
+                  <TableColumn fx:id="col_allRiddles_status" prefWidth="190.0" text="Status" />
               </columns>
             </TableView>
             <Label layoutX="117.0" layoutY="71.0" text="All available riddles in the system" />
-            <Button fx:id="btn_send" layoutX="552.0" layoutY="829.0" mnemonicParsing="false" onMouseClicked="#sendRiddleSolution" prefWidth="100.0" text="Send" />
-            <Label layoutX="116.0" layoutY="781.0" text="Riddle Solution" />
-            <TextField fx:id="tf_riddleSolution" layoutX="253.0" layoutY="776.0" prefHeight="31.0" prefWidth="771.0" />
+            <Button fx:id="btn_send" layoutX="550.0" layoutY="821.0" mnemonicParsing="false" onMouseClicked="#sendRiddleSolution" prefWidth="100.0" text="Send" />
+            <Label layoutX="117.0" layoutY="758.0" text="Riddle Solution" />
+            <TextField fx:id="tf_riddleSolution" layoutX="254.0" layoutY="753.0" prefHeight="31.0" prefWidth="771.0" />
          </children>
       </AnchorPane>
    </children>

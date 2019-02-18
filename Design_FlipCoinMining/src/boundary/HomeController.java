@@ -2,6 +2,7 @@ package boundary;
 
 import java.io.IOException;
 
+import entity.Consts;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +13,9 @@ import javafx.stage.Stage;
 
 public class HomeController {
 
+	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
+	private boolean isWorker = Consts.isWorker;
+	
 	@FXML
 	private Button btn_lotteries;
 

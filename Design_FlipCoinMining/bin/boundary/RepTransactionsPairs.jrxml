@@ -1,54 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepTransactionsPairs" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0945685c-25b9-4425-a744-474b2b31552d">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="UCA"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="128"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="867"/>
 	<queryString>
-		<![CDATA[SELECT tblTransaction.ID, tblTransaction.size, tblTransaction.fee, tblTransaction_1.ID, tblTransaction_1.size, tblTransaction_1.fee, (tblTransaction.size+tblTransaction_1.size) AS sumSize, (tblTransaction.fee+tblTransaction_1.fee) AS sumFee, (tblTransaction.ID+tblTransaction_1.ID) AS pair1, (tblTransaction.ID+tblTransaction_1.ID) AS pair2
+		<![CDATA[SELECT tblTransaction.ID AS id1, tblTransaction.size AS size1, tblTransaction.fee AS fee1, tblTransaction_1.ID AS id2, tblTransaction_1.size AS size2, tblTransaction_1.fee AS fee2, (tblTransaction.size+tblTransaction_1.size) AS sumSize, (tblTransaction.fee+tblTransaction_1.fee) AS sumFee, (tblTransaction.ID+tblTransaction_1.ID) AS pair1, (tblTransaction.ID+tblTransaction_1.ID) AS pair2
 FROM tblTransaction, tblTransaction AS tblTransaction_1
-
 WHERE (
 ((tblTransaction.blockAddress) Is Null)
 AND ((tblTransaction_1.blockAddress) Is Null)
 AND ((tblTransaction.ID)<>(tblTransaction_1.ID))
 )
-
-
 GROUP BY tblTransaction.ID, tblTransaction.size, tblTransaction.fee, tblTransaction_1.ID, tblTransaction_1.size, tblTransaction_1.fee, tblTransaction.size, tblTransaction.fee
-ORDER BY tblTransaction.size DESC , tblTransaction.fee;
-]]>
+ORDER BY Sum(tblTransaction.size+tblTransaction_1.size), Sum(tblTransaction.fee+tblTransaction_1.fee);]]>
 	</queryString>
-	<field name="ID" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="ID"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	<field name="id1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="id1"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tblTransaction"/>
 	</field>
-	<field name="size" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="size"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	<field name="size1" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="size1"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tblTransaction"/>
 	</field>
-	<field name="commission" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.label" value="commission"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	<field name="fee1" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="fee1"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tblTransaction"/>
 	</field>
-	<field name="COLUMN_4" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="ID"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	<field name="id2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="id2"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tblTransaction"/>
 	</field>
-	<field name="COLUMN_5" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="size"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	<field name="size2" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="size2"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tblTransaction"/>
 	</field>
-	<field name="COLUMN_6" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.label" value="commission"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="TblTransaction"/>
+	<field name="fee2" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="fee2"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tblTransaction"/>
 	</field>
-	<field name="SumOfsize" class="java.math.BigDecimal">
-		<property name="com.jaspersoft.studio.field.label" value="SumOfsize"/>
+	<field name="sumSize" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="sumSize"/>
 	</field>
-	<field name="SumOfCommission" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.label" value="SumOfCommission"/>
+	<field name="sumFee" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="sumFee"/>
+	</field>
+	<field name="pair1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pair1"/>
+	</field>
+	<field name="pair2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pair2"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -204,7 +206,7 @@ ORDER BY tblTransaction.size DESC , tblTransaction.fee;
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{id1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="72" y="0" width="69" height="30" uuid="c4c1afe0-fbe6-4369-bac2-cc6310181f7f">
@@ -214,7 +216,7 @@ ORDER BY tblTransaction.size DESC , tblTransaction.fee;
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{size}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{size1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="141" y="0" width="69" height="30" uuid="71b723e5-bf96-4f37-a560-f12c5dc87c8d">
@@ -224,7 +226,7 @@ ORDER BY tblTransaction.size DESC , tblTransaction.fee;
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{commission}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fee1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="210" y="0" width="69" height="30" backcolor="#FCE4D6" uuid="f79349a5-35a3-4963-9d25-e169363d8663">
@@ -234,7 +236,7 @@ ORDER BY tblTransaction.size DESC , tblTransaction.fee;
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{COLUMN_4}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{id2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="279" y="0" width="69" height="30" uuid="03060a48-e45c-4ca5-8abd-8469b5adc267">
@@ -244,7 +246,7 @@ ORDER BY tblTransaction.size DESC , tblTransaction.fee;
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{COLUMN_5}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{size2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="348" y="0" width="69" height="30" uuid="30e9f282-ad8a-4292-ac40-0653447349b3">
@@ -254,7 +256,7 @@ ORDER BY tblTransaction.size DESC , tblTransaction.fee;
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{COLUMN_6}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fee2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Opaque" x="417" y="0" width="69" height="30" backcolor="#FCE4D6" uuid="0a14af50-3416-4adc-9584-9dcbf733135d">
@@ -264,7 +266,7 @@ ORDER BY tblTransaction.size DESC , tblTransaction.fee;
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{SumOfsize}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{sumSize}]]></textFieldExpression>
 			</textField>
 			<textField pattern="0.00">
 				<reportElement mode="Opaque" x="486" y="0" width="67" height="30" backcolor="#FCE4D6" uuid="d8337735-37e0-4e80-a1d3-a712ccdaa1e9">
@@ -274,7 +276,7 @@ ORDER BY tblTransaction.size DESC , tblTransaction.fee;
 					<pen lineWidth="1.0" lineStyle="Dotted" lineColor="#FCE4D6"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{SumOfCommission}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{sumFee}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

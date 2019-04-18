@@ -3,6 +3,7 @@ package boundary;
 import java.util.ArrayList;
 
 import control.DataLogic;
+import control.MinerLogic;
 import entity.BusinessCompany;
 import entity.Consts;
 import entity.Miner;
@@ -24,8 +25,8 @@ public class OtherMinersController {
 	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
 	private boolean isWorker = Consts.isWorker;
 	
-	private ArrayList<Miner> allMiners = DataLogic.getInstance().getAllMiners();
-	private ArrayList<BusinessCompany> allBussinessMiners= DataLogic.getInstance().getAllBusinessCompanys();
+	private ArrayList<Miner> allMiners = MinerLogic.getInstance().getAllMiners();
+	private ArrayList<BusinessCompany> allBussinessMiners= MinerLogic.getInstance().getAllBusinessCompanys();
 	
     @FXML
     private TextField tf_address;

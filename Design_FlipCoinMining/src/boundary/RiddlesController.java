@@ -10,7 +10,9 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
+import control.BlockLogic;
 import control.DataLogic;
+import control.RiddleLogic;
 import entity.Block;
 import entity.Consts;
 import entity.Riddle;
@@ -34,13 +36,13 @@ public class RiddlesController {
 	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
 	private boolean isWorker = Consts.isWorker;
 
-	private HashMap<Integer,Riddle> allRiddles = DataLogic.getInstance().getAllRiddlesHM();
+	private HashMap<Integer,Riddle> allRiddles = RiddleLogic.getInstance().getAllRiddlesHM();
 
-	private ArrayList<Solution> allSolutions = DataLogic.getInstance().getAllSolutions();
+	private ArrayList<Solution> allSolutions = RiddleLogic.getInstance().getAllSolutions();
 
-	private ArrayList<RiddleLevel>  allLevels = DataLogic.getInstance().getAllRiddleLevels();
+	private ArrayList<RiddleLevel>  allLevels = RiddleLogic.getInstance().getAllRiddleLevels();
 
-	private ArrayList<Block> allBlocks = DataLogic.getInstance().getAllBlocks();
+	private ArrayList<Block> allBlocks = BlockLogic.getInstance().getAllBlocks();
 
 	private ArrayList<Block> allCurrentMinerBlocks = new ArrayList<Block>();
 
@@ -109,7 +111,7 @@ public class RiddlesController {
 	private void setAllRiddlesTable() {
 
 		ObservableList<Riddle> riddles = FXCollections.observableArrayList();
-		riddles.setAll(DataLogic.getInstance().getAllRiddles());
+		riddles.setAll(RiddleLogic.getInstance().getAllRiddles());
 		tbl_allRiddles.setItems(riddles);	
 		tbl_allRiddles.refresh();
 	}
@@ -173,12 +175,12 @@ public class RiddlesController {
 				timeOut();
 
 				// change riddle status to closed 
-				DataLogic.getInstance().editRiddleStatus(riddleID, "Closed");
+				RiddleLogic.getInstance().editRiddleStatus(riddleID, "Closed");
 				return;
 			}
 
 			SolvedRiddle solvedRiddle = new SolvedRiddle(currentMinerAddress, riddleID, currentTime);
-			DataLogic.getInstance().addSolvedRiddle(currentMinerAddress, riddleID, currentTime);
+			RiddleLogic.getInstance().addSolvedRiddle(currentMinerAddress, riddleID, currentTime);
 
 
 
@@ -220,10 +222,10 @@ public class RiddlesController {
 
 			System.out.println(blockID + " "+ currentTime+ " "+  blockSize+ " "+ currentMinerAddress+ " "+ previousBlock);
 			// add block
-			DataLogic.getInstance().addBlock(blockID, currentTime, blockSize, currentMinerAddress, previousBlock);
+			BlockLogic.getInstance().addBlock(blockID, currentTime, blockSize, currentMinerAddress, previousBlock);
 
 			// change riddle status to closed 
-			DataLogic.getInstance().editRiddleStatus(riddleID, "Closed");
+			RiddleLogic.getInstance().editRiddleStatus(riddleID, "Closed");
 
 			// alert
 			Alert alert = new Alert(AlertType.INFORMATION);

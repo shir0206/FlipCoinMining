@@ -238,7 +238,11 @@ public final class Consts {
 			public static final String 	SQL_Transaction_select = "Select * FROM tblTransaction";
 			public static final String 	SQL_Transaction_delete =  "{ call qryTransactionDelete(?,?,?) }";
 			public static final String 	SQL_Transaction_insert =  "{ call qryTransactionInsert(?,?,?) }";
-			public static final String 	SQL_Transaction_update =  "{ call qryTransactionBlockUpdate(?, ?) }";
+		//	public static final String 	SQL_Transaction_update =  "{ call qryTransactionBlockUpdate(?, ?) }";
+
+			public static final String 	SQL_Transaction_update = ""
+							+ "UPDATE tblTransaction SET tblTransaction.ID = (?) "
+							+ "WHERE tblTransaction.blockAddress = (?);";
 
 			public static final String 	qryTransactionGetAllAvailable =  "{ call qryTransactiongetAllAvailable() }";
 

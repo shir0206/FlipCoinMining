@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import control.DataLogic;
+import control.MinerLogic;
 import entity.BusinessCompany;
 import entity.Consts;
 import entity.Miner;
@@ -21,7 +22,7 @@ import javafx.stage.Stage;
 
 public class LogInController {
 
-	private ArrayList<Miner> allMiners = DataLogic.getInstance().getAllMiners();
+	private ArrayList<Miner> allMiners = MinerLogic.getInstance().getAllMiners();
 
 
 	@FXML

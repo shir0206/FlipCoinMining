@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import control.BlockLogic;
 import control.DataLogic;
 import entity.Block;
 import entity.Consts;
@@ -31,7 +32,7 @@ public class BlockController {
 
 	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
 	private boolean isWorker = Consts.isWorker;
-	
+
 	private ArrayList<Block> allBlocks;
 	private ArrayList<Block> allCurrentMinerBlocks = new ArrayList<Block>();
 
@@ -67,7 +68,7 @@ public class BlockController {
 	@FXML
 	private TextField tf_creationHour;
 
-	
+
 	@FXML
 	private TableView<Transaction> tbl_transInBlock;
 
@@ -143,7 +144,8 @@ public class BlockController {
 	private void setTransInBlockTable() {
 
 		// Get all transactions from DB
-		allTransactions = ViewLogic.instance.getAllTransactions();
+		//	allTransactions = BlockLogic.instance.getAllTransactions();
+		allTransactions = BlockLogic.getInstance().getAllAvailableTransactions();
 
 		// Get all available transactions that are attached to current block
 		for (int i=0; i<allTransactions.size(); i++) {
@@ -159,7 +161,13 @@ public class BlockController {
 
 		// Display the transactions in the block
 		ObservableList<Transaction> allTransactionsInBlockList = FXCollections.observableArrayList();
-		allTransactionsInBlockList.setAll(ViewLogic.instance.getAllTransactionsInBlock(currentBlock));
+		//	allTransactionsInBlockList.setAll(BlockLogic.instance.getAllTransactionsInBlock(currentBlock));
+		//		ObservableList<Transaction> temp = FXCollections.observableArrayList();
+		//
+		//		tbl_transInBlock.setItems(temp);
+		//		tbl_transInBlock.refresh();
+		//		
+		allTransactionsInBlockList.setAll(allTransactionsInBlock);
 
 		tbl_transInBlock.setItems(allTransactionsInBlockList);
 		tbl_transInBlock.refresh();
@@ -173,7 +181,7 @@ public class BlockController {
 	private void setAllTransTable() {
 
 		// Get all transactions from DB
-		allTransactions = ViewLogic.instance.getAllTransactions();
+		allTransactions = BlockLogic.getInstance().getAllTransactions();
 
 		// Get all available transactions that aren't attached to any block
 		for (int i=0; i<allTransactions.size(); i++) {
@@ -183,9 +191,9 @@ public class BlockController {
 
 		// Display the available transactions
 		ObservableList<Transaction> allAvailableTransactionsList = FXCollections.observableArrayList();
-		allAvailableTransactionsList.setAll(ViewLogic.instance.getAllAvailableTransactions());
+		allAvailableTransactionsList.setAll(BlockLogic.getInstance().getAllAvailableTransactions());
 
-		System.out.println(ViewLogic.instance.getAllTransactions());
+		System.out.println(BlockLogic.getInstance().getAllTransactions());
 
 		tbl_allTrans.setItems(allAvailableTransactionsList);
 		tbl_allTrans.refresh();
@@ -200,7 +208,7 @@ public class BlockController {
 	private void initBlockDetails() {
 
 		// Get all blocks from DB
-		allBlocks = ViewLogic.instance.getAllBlocks();
+		allBlocks = BlockLogic.getInstance().getAllBlocks();
 
 		// Get all blocks of the current miner
 		allCurrentMinerBlocks = new ArrayList<Block>();
@@ -226,11 +234,8 @@ public class BlockController {
 		String blockID = currentBlock;
 
 		Date creationDate = allCurrentMinerBlocks.get(currentBlockIndex).getCreationDate();
-		//	LocalDate creationDate1 = allCurrentMinerBlocks.get(certainBlock).getCreationDate();
 
-	//	Date creationHour = allCurrentMinerBlocks.get(currentBlockIndex).getCreationHour();
 		Integer size = allCurrentMinerBlocks.get(currentBlockIndex).getSize();
-	//	String minerAddress = allCurrentMinerBlocks.get(currentBlockIndex).getMinerAddress();
 		String previousBlock = allCurrentMinerBlocks.get(currentBlockIndex).getPreviousBlock();
 
 		tf_address.setText(blockID);;
@@ -245,48 +250,6 @@ public class BlockController {
 			tf_prevBlock.setText(previousBlock.toString());
 	}
 
-//
-//	/**
-//	 * This method sets the block details
-//	 */
-//	private void setBlockDetails0() {
-//
-//		// Get all blocks from DB
-//		allBlocks = ViewLogic.instance.getAllBlocks();
-//
-//		// Get all blocks of the current miner
-//		allCurrentMinerBlocks = new ArrayList<Block>();
-//		for (int i=0; i<allBlocks.size();i++) {
-//			if (allBlocks.get(i).getMinerAddress().equals(currentMinerAddress)) 
-//				allCurrentMinerBlocks.add(allBlocks.get(i));
-//		}
-//
-//		// The last block in the chain
-//		int lastBlock = (allCurrentMinerBlocks.size() - 1);
-//
-//		String blockID = allCurrentMinerBlocks.get(lastBlock).getID();
-//		currentBlock = blockID;
-//
-//
-//		Date creationDate = allCurrentMinerBlocks.get(lastBlock).getCreationDate();
-//
-//		Date creationHour = allCurrentMinerBlocks.get(lastBlock).getCreationHour();
-//		Integer size = allCurrentMinerBlocks.get(lastBlock).getSize();
-//		String minerAddress = allCurrentMinerBlocks.get(lastBlock).getMinerAddress();
-//		String previousBlock = allCurrentMinerBlocks.get(lastBlock).getPreviousBlock();
-//
-//		tf_address.setText(blockID);;
-//		tf_creationDate.setText(creationDate.toString());
-//
-//		tf_size.setText(size.toString());;
-//
-//		Integer blockCapacity = calculateBlockCapacity();
-//		tf_blockCapacity.setText(blockCapacity.toString());
-//
-//		if (previousBlock != null) 
-//			tf_prevBlock.setText(previousBlock.toString());
-//	}
-
 
 	/**
 	 * This method calculates block capacity
@@ -294,7 +257,7 @@ public class BlockController {
 	private int calculateBlockCapacity() {
 
 		int blockCapacity = 0;
-		blockCapacity = ViewLogic.instance.getSumOfTransInBlock(currentBlock);
+		blockCapacity = BlockLogic.getInstance().getSumOfTransInBlock(currentBlock);
 		return blockCapacity;
 	}
 
@@ -319,36 +282,41 @@ public class BlockController {
 			for (Transaction t : transactions) {
 				Transaction transaction = new Transaction(t.getID(), t.getSize(), t.getType(), t.getFee());
 
+				//		if (allTransactionsInBlock.contains(transaction)) {
+
 				if (allTransactionsInBlock.contains(transaction)) {
+
 					allTransactionsInBlock.get(allTransactionsInBlock.indexOf(transaction)).setblockAddress(blockID);
-			
+
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Transaction Exists");
 					alert.setContentText("Transaction already exists in the block");
 					alert.initModality(Modality.APPLICATION_MODAL);
 					alert.showAndWait();
-				
+
 				}
-				
+
 				else  {
-					
+
 					// Check size of the transaction, if it is possible to add it
 					if ( (t.getSize()) + calculateBlockCapacity() > allCurrentMinerBlocks.get(currentBlockIndex).getSize()) {
-						
+
 						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Transaction Too Big");
 						alert.setContentText("Transaction is too big for the current block");
 						alert.initModality(Modality.APPLICATION_MODAL);
 						alert.showAndWait();
 					}
-					
+
 					else {
-					// Add the transaction
+						// Add the transaction
 						allAvailableTransactions.remove(transaction);
 
-					allTransactionsInBlock.add(transaction);
-				//	allAvailableTransactions.remove(allAvailableTransactions.indexOf(transaction));
-					ViewLogic.instance.addTransToBlock(transaction, allCurrentMinerBlocks.get(currentBlockIndex));
+
+
+						allTransactionsInBlock.add(transaction);
+						//	allAvailableTransactions.remove(allAvailableTransactions.indexOf(transaction));
+						BlockLogic.getInstance().addTransToBlock(transaction, allCurrentMinerBlocks.get(currentBlockIndex));
 					}
 				}
 			}
@@ -357,6 +325,7 @@ public class BlockController {
 		setTransInBlockTable();
 
 		setAllTransTable();
+
 	}
 
 
@@ -384,24 +353,24 @@ public class BlockController {
 
 				if (allAvailableTransactions.contains(transaction)) {
 					allAvailableTransactions.get(allAvailableTransactions.indexOf(transaction)).setblockAddress("");
-			
+
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Transaction Exists");
 					alert.setContentText("Transaction already exists in the block");
 					alert.initModality(Modality.APPLICATION_MODAL);
 					alert.showAndWait();
-				
+
 				}
-				
+
 				else  {
-					
-					
+
+
 					// Add the transaction
 					allTransactionsInBlock.remove(transaction);
 					allAvailableTransactions.add(transaction);
-					ViewLogic.instance.addTransToBlock(transaction, allCurrentMinerBlocks.get(currentBlockIndex));
-					}
-				
+					BlockLogic.getInstance().addTransToBlock(transaction, allCurrentMinerBlocks.get(currentBlockIndex));
+				}
+
 			}
 		}
 		System.out.println(allTransactionsInBlock);
@@ -418,7 +387,7 @@ public class BlockController {
 
 	@FXML
 	void watchNextBlock() {
-		
+
 
 		// If it is the last block in the chain, alert
 		if ((currentBlockIndex + 1) == allCurrentMinerBlocks.size()) {
@@ -432,7 +401,7 @@ public class BlockController {
 
 		// go to the previous block
 		else {
-			
+
 			currentBlockIndex++;
 			currentBlock = allCurrentMinerBlocks.get(currentBlockIndex).getID();
 
@@ -470,7 +439,7 @@ public class BlockController {
 
 		// go to the previous block
 		else {
-			
+
 			currentBlockIndex--;
 			currentBlock = allCurrentMinerBlocks.get(currentBlockIndex).getID();
 

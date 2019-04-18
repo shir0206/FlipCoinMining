@@ -3,6 +3,7 @@ package boundary;
 import java.util.ArrayList;
 
 import control.DataLogic;
+import control.MinerLogic;
 import entity.BusinessCompany;
 import entity.Consts;
 import entity.Miner;
@@ -21,8 +22,8 @@ public class ProfileController {
 	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
 	private boolean isWorker = Consts.isWorker;
 	
-	private ArrayList<Miner> allMiners = DataLogic.getInstance().getAllMiners();
-	private ArrayList<BusinessCompany> allBussinessMiners= DataLogic.getInstance().getAllBusinessCompanys();
+	private ArrayList<Miner> allMiners = MinerLogic.getInstance().getAllMiners();
+	private ArrayList<BusinessCompany> allBussinessMiners= MinerLogic.getInstance().getAllBusinessCompanys();
 
 
 
@@ -151,7 +152,7 @@ public class ProfileController {
 		// update in db
 
 		if (isPrivate) {
-			if (DataLogic.getInstance().editMiner(tf_address.getText(), tf_username.getText(),
+			if (MinerLogic.getInstance().editMiner(tf_address.getText(), tf_username.getText(),
 					tf_password.getText(), Double.parseDouble(tf_digitalProfit.getText()), tf_email.getText())) {
 
 				Alert alert = new Alert(AlertType.INFORMATION);
@@ -181,12 +182,12 @@ public class ProfileController {
 			}
 
 			// update miner details in miner tbl
-			if (DataLogic.getInstance().editMiner(tf_address.getText(), tf_username.getText(),
+			if (MinerLogic.getInstance().editMiner(tf_address.getText(), tf_username.getText(),
 					tf_password.getText(), Double.parseDouble(tf_digitalProfit.getText()), tf_email.getText())) {
 
 				// if was business, update miner details in company tbl
 				if (wasBusiness) {
-					if (DataLogic.getInstance().editBusinessCompany(tf_address.getText(), tf_contactName.getText(),
+					if (MinerLogic.getInstance().editBusinessCompany(tf_address.getText(), tf_contactName.getText(),
 							tf_contactPhone.getText(), tf_contactEmail.getText()))  {
 
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -206,7 +207,7 @@ public class ProfileController {
 				// if was not business, add miner details in company tbl
 				} else {
 
-					if (DataLogic.getInstance().addBusinessCompany(tf_address.getText(), tf_contactName.getText(),
+					if (MinerLogic.getInstance().addBusinessCompany(tf_address.getText(), tf_contactName.getText(),
 							tf_contactPhone.getText(), tf_contactEmail.getText()))  {
 
 						Alert alert = new Alert(AlertType.INFORMATION);

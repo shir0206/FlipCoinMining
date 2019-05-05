@@ -14,9 +14,7 @@ import entity.Miner;
 
 public class MinerLogic {
 
-	
-
-	//----------------------------------------- SINGLETON TO DB -----------------------------------------
+	// ----------------------------------------- SINGLETON TO DB -----------------------------------------
 
 	private static MinerLogic instance;
 
@@ -25,13 +23,12 @@ public class MinerLogic {
 			instance = new MinerLogic();
 		return instance;
 	}
-	
 
-
-	//----------------------------------------- Business Company Methods -------------------------------------
+	// ----------------------------------------- Business Company Methods -------------------------------------
 
 	/**
 	 * Get all BusinessCompanys from DB file.
+	 * 
 	 * @return ArrayList of BusinessCompanys.
 	 */
 	public ArrayList<BusinessCompany> getAllBusinessCompanys() {
@@ -43,8 +40,8 @@ public class MinerLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new BusinessCompany(rs.getString(i++), rs.getString(i++),
-							rs.getString(i++), rs.getString(i++)));
+					results.add(new BusinessCompany(rs.getString(i++), rs.getString(i++), rs.getString(i++),
+							rs.getString(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -55,14 +52,13 @@ public class MinerLogic {
 		return results;
 	}
 
-
-
 	/**
 	 * Add a new BusinessCompany with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
-	public boolean addBusinessCompany(String uniqueAddress, String contactName, 
-			String contactPhone, String contactEmail) {
+	public boolean addBusinessCompany(String uniqueAddress, String contactName, String contactPhone,
+			String contactEmail) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -98,10 +94,11 @@ public class MinerLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected BusinessCompany in form.
-	 * @param BusinessCompanyID - the BusinessCompany to delete from DB.
+	 * 
+	 * @param BusinessCompanyID
+	 *            - the BusinessCompany to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeBusinessCompany(String uniqueAddress) {
@@ -123,22 +120,19 @@ public class MinerLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed BusinessCompany with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editBusinessCompany (String uniqueAddress, String contactName,
-			String contactPhone, String contactEmail) {
+	public boolean editBusinessCompany(String uniqueAddress, String contactName, String contactPhone,
+			String contactEmail) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_BusinessCompany_update)) {
 				int i = 1;
-
-
-				//	stmt.setString(i++, uniqueAddress); // can't be null
 
 				if (contactName != null)
 					stmt.setString(i++, contactName);
@@ -169,14 +163,11 @@ public class MinerLogic {
 		return false;
 	}
 
-
-
-
-	//----------------------------------------- Miner Methods -------------------------------------
-
+	// ----------------------------------------- Miner Methods -------------------------------------
 
 	/**
 	 * Get all Miners from DB file.
+	 * 
 	 * @return ArrayList of Miners.
 	 */
 	public ArrayList<Miner> getAllMiners() {
@@ -188,8 +179,8 @@ public class MinerLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new Miner(rs.getString(i++), rs.getString(i++), rs.getString(i++),
-							rs.getDouble(i++), rs.getString(i++)));
+					results.add(new Miner(rs.getString(i++), rs.getString(i++), rs.getString(i++), rs.getDouble(i++),
+							rs.getString(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -200,14 +191,12 @@ public class MinerLogic {
 		return results;
 	}
 
-
-
 	/**
 	 * Add a new Miner with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
-	public boolean addMiner(String uniqueAddress, String name, String password,
-			Double digitalProfit, String email) {
+	public boolean addMiner(String uniqueAddress, String name, String password, Double digitalProfit, String email) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -220,7 +209,6 @@ public class MinerLogic {
 					stmt.setString(i++, name);
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
-
 
 				if (password != null)
 					stmt.setString(i++, password);
@@ -249,10 +237,11 @@ public class MinerLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected Miner in form.
-	 * @param MinerID - the Miner to delete from DB.
+	 * 
+	 * @param MinerID
+	 *            - the Miner to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeMiner(String uniqueAddress) {
@@ -274,27 +263,23 @@ public class MinerLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed Miner with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editMiner (String uniqueAddress, String name, String password,
-			Double digitalProfit, String email) {
+	public boolean editMiner(String uniqueAddress, String name, String password, Double digitalProfit, String email) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_Miner_update)) {
 				int i = 1;
 
-				//stmt.setString(i++, uniqueAddress); // can't be null
-
 				if (name != null)
 					stmt.setString(i++, name);
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
-
 
 				if (password != null)
 					stmt.setString(i++, password);
@@ -323,11 +308,4 @@ public class MinerLogic {
 		return false;
 	}
 
-
-
-
-
-
-	
-	
 }

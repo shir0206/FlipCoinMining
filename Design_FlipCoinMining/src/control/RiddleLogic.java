@@ -19,8 +19,7 @@ import entity.SolvedRiddle;
 
 public class RiddleLogic {
 
-
-	//----------------------------------------- SINGLETON TO DB -----------------------------------------
+	// ----------------------------------------- SINGLETON TO DB -----------------------------------------
 
 	private static RiddleLogic instance;
 
@@ -30,14 +29,11 @@ public class RiddleLogic {
 		return instance;
 	}
 
-
-
-
-
-	//----------------------------------------- Riddle Methods -------------------------------------
+	// ----------------------------------------- Riddle Methods -------------------------------------
 
 	/**
 	 * Get all Riddles from DB file.
+	 * 
 	 * @return ArrayList of Riddles.
 	 */
 	public ArrayList<Riddle> getAllRiddles() {
@@ -49,8 +45,8 @@ public class RiddleLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new Riddle(rs.getInt(i++), rs.getTimestamp(i++), 
-							rs.getString(i++), rs.getTimestamp(i++), rs.getString(i++), rs.getInt(i++)));
+					results.add(new Riddle(rs.getInt(i++), rs.getTimestamp(i++), rs.getString(i++),
+							rs.getTimestamp(i++), rs.getString(i++), rs.getInt(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -61,7 +57,7 @@ public class RiddleLogic {
 		return results;
 	}
 
-	public HashMap<Integer,Riddle> getAllRiddlesHM(){
+	public HashMap<Integer, Riddle> getAllRiddlesHM() {
 		HashMap<Integer, Riddle> results = new HashMap<Integer, Riddle>();
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
@@ -71,8 +67,8 @@ public class RiddleLogic {
 				while (rs.next()) {
 					int i = 1;
 
-					Riddle value = new Riddle (rs.getInt(i++), rs.getTimestamp(i++), 
-							rs.getString(i++), rs.getTimestamp(i++), rs.getString(i++), rs.getInt(i++));
+					Riddle value = new Riddle(rs.getInt(i++), rs.getTimestamp(i++), rs.getString(i++),
+							rs.getTimestamp(i++), rs.getString(i++), rs.getInt(i++));
 
 					Integer key = value.getRiddleNumber();
 
@@ -91,10 +87,11 @@ public class RiddleLogic {
 
 	/**
 	 * Add a new Riddle with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
-	public boolean addRiddle(Integer riddleNumber, Date publishDate, Date publishHour, 
-			String description, Integer solutionTime, String status, Integer riddleLevel) {
+	public boolean addRiddle(Integer riddleNumber, Date publishDate, Date publishHour, String description,
+			Integer solutionTime, String status, Integer riddleLevel) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -145,10 +142,11 @@ public class RiddleLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected Riddle in form.
-	 * @param RiddleID - the Riddle to delete from DB.
+	 * 
+	 * @param RiddleID
+	 *            - the Riddle to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeRiddle(int riddleNumber) {
@@ -170,28 +168,24 @@ public class RiddleLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed Riddle with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editRiddle (Integer riddleNumber, Date publishDate, Date publishHour, 
-			String description, Integer solutionTime, String status, Integer riddleLevel) {
+	public boolean editRiddle(Integer riddleNumber, Date publishDate, Date publishHour, String description,
+			Integer solutionTime, String status, Integer riddleLevel) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_Riddle_update)) {
 				int i = 1;
 
-				//stmt.setInt(i++, riddleNumber); // can't be null
-
-
 				if (publishDate != null)
 					stmt.setDate(i++, new java.sql.Date(publishDate.getTime()));
 				else
 					stmt.setNull(i++, java.sql.Types.DATE);
-
 
 				if (publishHour != null)
 					stmt.setDate(i++, new java.sql.Date(publishHour.getTime()));
@@ -231,22 +225,18 @@ public class RiddleLogic {
 		return false;
 	}
 
-
-
-
 	/**
 	 * Edit an existed Riddle with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editRiddleStatus (int riddleNumber, String status) {
+	public boolean editRiddleStatus(int riddleNumber, String status) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
 					CallableStatement stmt = conn.prepareCall(Consts.SQL_Riddle_updateStatus)) {
 				int i = 1;
-
-				//stmt.setInt(i++, riddleNumber); // can't be null
 
 				if (status != null)
 					stmt.setString(i++, status);
@@ -266,12 +256,11 @@ public class RiddleLogic {
 		return false;
 	}
 
-
-
-	//----------------------------------------- RiddleLevel Methods -------------------------------------
+	// ----------------------------------------- RiddleLevel Methods -------------------------------------
 
 	/**
 	 * Get all RiddleLevels from DB file.
+	 * 
 	 * @return ArrayList of RiddleLevels.
 	 */
 	public ArrayList<RiddleLevel> getAllRiddleLevels() {
@@ -283,8 +272,7 @@ public class RiddleLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new RiddleLevel(rs.getInt(i++), rs.getString(i++), 
-							rs.getInt(i++), rs.getInt(i++)));
+					results.add(new RiddleLevel(rs.getInt(i++), rs.getString(i++), rs.getInt(i++), rs.getInt(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -295,10 +283,9 @@ public class RiddleLogic {
 		return results;
 	}
 
-
-
 	/**
 	 * Add a new RiddleLevel with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
 	public boolean addRiddleLevel(Integer levelCode, String levelName, Integer levelDifficulty, Integer blockSize) {
@@ -320,7 +307,6 @@ public class RiddleLogic {
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
 
-
 				if (blockSize != null)
 					stmt.setInt(i++, blockSize);
 				else
@@ -338,10 +324,11 @@ public class RiddleLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected RiddleLevel in form.
-	 * @param RiddleLevelID - the RiddleLevel to delete from DB.
+	 * 
+	 * @param RiddleLevelID
+	 *            - the RiddleLevel to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeRiddleLevel(int levelCode) {
@@ -363,13 +350,13 @@ public class RiddleLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed RiddleLevel with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editRiddleLevel (Integer levelCode, String levelName, Integer levelDifficulty, Integer blockSize) {
+	public boolean editRiddleLevel(Integer levelCode, String levelName, Integer levelDifficulty, Integer blockSize) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -406,13 +393,11 @@ public class RiddleLogic {
 		return false;
 	}
 
-
-
-
-	//----------------------------------------- Solution Methods -------------------------------------
+	// ----------------------------------------- Solution Methods  -------------------------------------
 
 	/**
 	 * Get all Solutions from DB file.
+	 * 
 	 * @return ArrayList of Solutions.
 	 */
 	public ArrayList<Solution> getAllSolutions() {
@@ -435,10 +420,9 @@ public class RiddleLogic {
 		return results;
 	}
 
-
-
 	/**
 	 * Add a new Solution with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
 	public boolean addSolution(Integer riddleNumber, Integer solutionNumber, String result) {
@@ -468,10 +452,11 @@ public class RiddleLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected Solution in form.
-	 * @param SolutionID - the Solution to delete from DB.
+	 * 
+	 * @param SolutionID
+	 *            - the Solution to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeSolution(int riddleNumber, int solutionNumber) {
@@ -495,13 +480,13 @@ public class RiddleLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed Solution with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editSolution (Integer riddleNumber, Integer solutionNumber, String result) {
+	public boolean editSolution(Integer riddleNumber, Integer solutionNumber, String result) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -531,13 +516,11 @@ public class RiddleLogic {
 		return false;
 	}
 
-
-
-
-	//----------------------------------------- SolvedRiddle Methods -------------------------------------
+	// ----------------------------------------- SolvedRiddle Methods -------------------------------------
 
 	/**
 	 * Get all SolvedRiddles from DB file.
+	 * 
 	 * @return ArrayList of SolvedRiddles.
 	 */
 	public ArrayList<SolvedRiddle> getAllSolvedRiddles() {
@@ -560,10 +543,9 @@ public class RiddleLogic {
 		return results;
 	}
 
-
-
 	/**
 	 * Add a new SolvedRiddle with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
 	public boolean addSolvedRiddle(String uniqueAddress, Integer riddleNumber, Timestamp time) {
@@ -593,10 +575,11 @@ public class RiddleLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected SolvedRiddle in form.
-	 * @param SolvedRiddleID - the SolvedRiddle to delete from DB.
+	 * 
+	 * @param SolvedRiddleID
+	 *            - the SolvedRiddle to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeSolvedRiddle(String uniqueAddress, int riddleNumber) {
@@ -619,13 +602,13 @@ public class RiddleLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed SolvedRiddle with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editSolvedRiddle (String uniqueAddress, int riddleNumber, Date time) {
+	public boolean editSolvedRiddle(String uniqueAddress, int riddleNumber, Date time) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);

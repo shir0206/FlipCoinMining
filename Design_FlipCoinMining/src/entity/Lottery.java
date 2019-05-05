@@ -3,13 +3,13 @@ package entity;
 import java.util.Date;
 
 public class Lottery {
-	
+
 	private final String lotteryNumber;
 	private Date date;
 	private int maxParticipants;
 	private int numberOfWinners;
 	private int numberOfBonuses;
-	
+
 	public Lottery(String lotteryNumber, Date date, int maxParticipants, int numberOfWinners, int numberOfBonuses) {
 		super();
 		this.lotteryNumber = lotteryNumber;
@@ -60,5 +60,5 @@ public class Lottery {
 		return "Lottery [lotteryNumber=" + lotteryNumber + ", date=" + date + ", maxParticipants=" + maxParticipants
 				+ ", numberOfWinners=" + numberOfWinners + ", numberOfBonuses=" + numberOfBonuses + "]";
 	}
-		
+
 }

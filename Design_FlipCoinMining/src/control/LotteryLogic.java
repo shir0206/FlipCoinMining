@@ -7,23 +7,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import entity.Bonus;
 import entity.Consts;
 import entity.GetBonus;
 import entity.Lottery;
 import entity.Participant;
-import entity.SolvedRiddle;
 
 public class LotteryLogic {
 
-
-
-
-	//----------------------------------------- SINGLETON TO DB -----------------------------------------
+	// ----------------------------------------- SINGLETON TO DB -----------------------------------------
 
 	private static LotteryLogic instance;
 
@@ -33,13 +27,11 @@ public class LotteryLogic {
 		return instance;
 	}
 
-
-
-
-	//----------------------------------------- Get Bonus Methods -------------------------------------
+	// ----------------------------------------- Get Bonus Methods -------------------------------------
 
 	/**
 	 * Get all GetBonuss from DB file.
+	 * 
 	 * @return ArrayList of GetBonuss.
 	 */
 	public ArrayList<GetBonus> getAllGetBonuss() {
@@ -62,10 +54,9 @@ public class LotteryLogic {
 		return results;
 	}
 
-
-
 	/**
 	 * Add a new GetBonus with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
 	public boolean addGetBonus(String uniqueAddress, int lotteryNumber, int bonusNumber) {
@@ -91,10 +82,11 @@ public class LotteryLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected GetBonus in form.
-	 * @param uniqueAddress - the GetBonus to delete from DB.
+	 * 
+	 * @param uniqueAddress
+	 *            - the GetBonus to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeGetBonus(String uniqueAddress, int lotteryNumber, int bonusNumber) {
@@ -119,13 +111,13 @@ public class LotteryLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed GetBonus with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editGetBonus (String uniqueAddress, int lotteryNumber, int bonusNumber) {
+	public boolean editGetBonus(String uniqueAddress, int lotteryNumber, int bonusNumber) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -135,7 +127,6 @@ public class LotteryLogic {
 				stmt.setString(i++, uniqueAddress); // can't be null
 				stmt.setInt(i++, lotteryNumber); // can't be null
 				stmt.setInt(i++, bonusNumber); // can't be null
-				//stmt.setLong(i++, GetBonusID);*/
 				stmt.executeUpdate();
 				return true;
 
@@ -148,12 +139,11 @@ public class LotteryLogic {
 		return false;
 	}
 
+	// ----------------------------------------- Lottery Methods -------------------------------------
 
-
-
-	//----------------------------------------- Lottery Methods -------------------------------------
 	/**
 	 * Get all Lotterys from DB file.
+	 * 
 	 * @return ArrayList of Lotterys.
 	 */
 	public ArrayList<Lottery> getAllLotterys() {
@@ -165,8 +155,8 @@ public class LotteryLogic {
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
-					results.add(new Lottery(rs.getString(i++), rs.getDate(i++), rs.getInt(i++),
-							rs.getInt(i++), rs.getInt(i++)));
+					results.add(new Lottery(rs.getString(i++), rs.getDate(i++), rs.getInt(i++), rs.getInt(i++),
+							rs.getInt(i++)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -177,14 +167,13 @@ public class LotteryLogic {
 		return results;
 	}
 
-
-
 	/**
 	 * Get all Lotterys from DB file.
+	 * 
 	 * @return ArrayList of Lotterys.
 	 */
-	public HashMap<String,Lottery> getAllLotteriesHM() {
-		HashMap<String,Lottery> results = new HashMap<String,Lottery>();
+	public HashMap<String, Lottery> getAllLotteriesHM() {
+		HashMap<String, Lottery> results = new HashMap<String, Lottery>();
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -193,8 +182,8 @@ public class LotteryLogic {
 				while (rs.next()) {
 					int i = 1;
 
-					Lottery value = new Lottery(rs.getString(i++), rs.getDate(i++), rs.getInt(i++),
-							rs.getInt(i++), rs.getInt(i++));
+					Lottery value = new Lottery(rs.getString(i++), rs.getDate(i++), rs.getInt(i++), rs.getInt(i++),
+							rs.getInt(i++));
 					String key = value.getLotteryNumber();
 
 					results.put(key, value);
@@ -208,13 +197,13 @@ public class LotteryLogic {
 		return results;
 	}
 
-
 	/**
 	 * Add a new Lottery with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
-	public boolean addLottery(Integer lotteryNumber, Date date, Integer maxParticipants,
-			Integer numberOfWinners, Integer numberOfBonuses) {
+	public boolean addLottery(Integer lotteryNumber, Date date, Integer maxParticipants, Integer numberOfWinners,
+			Integer numberOfBonuses) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -223,26 +212,20 @@ public class LotteryLogic {
 				int i = 1;
 				stmt.setInt(i++, lotteryNumber); // can't be null
 
-
-
 				if (date != null)
 					stmt.setDate(i++, new java.sql.Date(date.getTime()));
 				else
 					stmt.setNull(i++, java.sql.Types.DATE);
-
-
 
 				if (maxParticipants != null)
 					stmt.setInt(i++, maxParticipants);
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
 
-
 				if (numberOfWinners != null)
 					stmt.setInt(i++, numberOfWinners);
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
-
 
 				if (numberOfBonuses != null)
 					stmt.setInt(i++, numberOfBonuses);
@@ -261,10 +244,11 @@ public class LotteryLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected Lottery in form.
-	 * @param LotteryID - the Lottery to delete from DB.
+	 * 
+	 * @param LotteryID
+	 *            - the Lottery to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeLottery(int lotteryNumber) {
@@ -286,14 +270,14 @@ public class LotteryLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed Lottery with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editLottery (Integer lotteryNumber, Date date, Integer maxParticipants,
-			Integer numberOfWinners, Integer numberOfBonuses) {
+	public boolean editLottery(Integer lotteryNumber, Date date, Integer maxParticipants, Integer numberOfWinners,
+			Integer numberOfBonuses) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -307,18 +291,15 @@ public class LotteryLogic {
 				else
 					stmt.setNull(i++, java.sql.Types.DATE);
 
-
 				if (maxParticipants != null)
 					stmt.setInt(i++, maxParticipants);
 				else
 					stmt.setNull(i++, java.sql.Types.DATE);
 
-
 				if (numberOfWinners != null)
 					stmt.setInt(i++, numberOfWinners);
 				else
 					stmt.setNull(i++, java.sql.Types.VARCHAR);
-
 
 				if (numberOfBonuses != null)
 					stmt.setInt(i++, numberOfBonuses);
@@ -338,14 +319,11 @@ public class LotteryLogic {
 		return false;
 	}
 
-
-
-
-
-	//----------------------------------------- Participant Methods -------------------------------------
+	// ----------------------------------------- Participant Methods -------------------------------------
 
 	/**
 	 * Get all Participants from DB file.
+	 * 
 	 * @return ArrayList of Participants.
 	 */
 	public ArrayList<Participant> getAllParticipants() {
@@ -368,9 +346,9 @@ public class LotteryLogic {
 		return results;
 	}
 
-
 	/**
 	 * Get sum of participants.
+	 * 
 	 * @return ArrayList of Participants.
 	 */
 	public int getSumOfParticipantsInLottery(String lottery) {
@@ -378,7 +356,8 @@ public class LotteryLogic {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
-					PreparedStatement stmt = conn.prepareStatement(Consts.SQL_Participant_selectSumOfParticipantsInLottery(lottery));
+					PreparedStatement stmt = conn
+							.prepareStatement(Consts.SQL_Participant_selectSumOfParticipantsInLottery(lottery));
 					ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					int i = 1;
@@ -393,9 +372,9 @@ public class LotteryLogic {
 		return results;
 	}
 
-
 	/**
 	 * Add a new Participant with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
 	public boolean addParticipant(String lotteryNumber, String uniqueAddress, Boolean isWinner) {
@@ -421,10 +400,11 @@ public class LotteryLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected Participant in form.
-	 * @param ParticipantID - the Participant to delete from DB.
+	 * 
+	 * @param ParticipantID
+	 *            - the Participant to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeParticipant(String lotteryNumber, String uniqueAddress) {
@@ -448,13 +428,13 @@ public class LotteryLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed Participant with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editParticipant (Integer lotteryNumber, String uniqueAddress, Boolean isWinner) {
+	public boolean editParticipant(Integer lotteryNumber, String uniqueAddress, Boolean isWinner) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -483,13 +463,11 @@ public class LotteryLogic {
 		return false;
 	}
 
-
-
-
-	//----------------------------------------- Bonus Methods -------------------------------------
+	// ----------------------------------------- Bonus Methods -------------------------------------
 
 	/**
 	 * Get all Bonuses from DB file.
+	 * 
 	 * @return ArrayList of Bonuses.
 	 */
 	public ArrayList<Bonus> getAllBonuses() {
@@ -512,10 +490,9 @@ public class LotteryLogic {
 		return results;
 	}
 
-
-
 	/**
 	 * Add a new Bonus with the parameters received from the form.
+	 * 
 	 * @return true if the insertion was successful, else - return false.
 	 */
 	public boolean addBonus(int bonusNumber, String description) {
@@ -544,10 +521,11 @@ public class LotteryLogic {
 		return false;
 	}
 
-
 	/**
 	 * Delete the selected Bonus in form.
-	 * @param bonusNumber - the Bonus to delete from DB.
+	 * 
+	 * @param bonusNumber
+	 *            - the Bonus to delete from DB.
 	 * @return true if the deletion was successful, else - return false.
 	 */
 	public boolean removeBonus(int bonusNumber) {
@@ -569,13 +547,13 @@ public class LotteryLogic {
 		return false;
 	}
 
-
 	/**
 	 * Edit an existed Bonus with the parameters received from the form.
+	 * 
 	 * @return true if the update was successful, else - return false.
-	 *  
+	 * 
 	 */
-	public boolean editBonus (int bonusNumber, String description) {
+	public boolean editBonus(int bonusNumber, String description) {
 		try {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
@@ -602,8 +580,5 @@ public class LotteryLogic {
 		}
 		return false;
 	}
-
-
-
 
 }

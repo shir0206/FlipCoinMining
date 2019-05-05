@@ -1,17 +1,16 @@
 package entity;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Transaction {
-	
+
 	private final String ID;
 	private Integer size;
 	private String type;
 	private Double fee;
 	private String blockAddress;
-	private Timestamp additionDate; 
-	
+	private Timestamp additionDate;
+
 	public Timestamp getAdditionDate() {
 		return additionDate;
 	}
@@ -38,7 +37,7 @@ public class Transaction {
 		this.fee = fee;
 		this.blockAddress = blockAddress;
 	}
-	
+
 	public Transaction(String ID, Integer size, String type, double fee) {
 		super();
 		this.ID = ID;
@@ -46,7 +45,7 @@ public class Transaction {
 		this.type = type;
 		this.fee = fee;
 	}
-	
+
 	public Transaction(String ID) {
 		this.ID = ID;
 	}
@@ -89,9 +88,8 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-		return "Transaction [ID=" + ID + ", size=" + size + ", type=" + type + ", fee=" + fee
-				+ ", blockAddress=" + blockAddress + ", additionDate=" + additionDate + "]";
+		return "Transaction [ID=" + ID + ", size=" + size + ", type=" + type + ", fee=" + fee + ", blockAddress="
+				+ blockAddress + ", additionDate=" + additionDate + "]";
 	}
 
-		
 }

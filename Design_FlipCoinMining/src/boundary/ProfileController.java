@@ -1,8 +1,6 @@
 package boundary;
 
 import java.util.ArrayList;
-
-import control.DataLogic;
 import control.MinerLogic;
 import entity.BusinessCompany;
 import entity.Consts;
@@ -16,16 +14,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 
-
 public class ProfileController {
 
-	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
-	private boolean isWorker = Consts.isWorker;
-	
+	private String currentMinerAddress = Consts.currentMinerAddress; // the current miner that is logged in
+
 	private ArrayList<Miner> allMiners = MinerLogic.getInstance().getAllMiners();
-	private ArrayList<BusinessCompany> allBussinessMiners= MinerLogic.getInstance().getAllBusinessCompanys();
-
-
+	private ArrayList<BusinessCompany> allBussinessMiners = MinerLogic.getInstance().getAllBusinessCompanys();
 
 	@FXML
 	private TextField tf_address;
@@ -66,14 +60,10 @@ public class ProfileController {
 	@FXML
 	private Button btn_profileSave;
 
-
 	@FXML
 	public void initialize() {
 
-
-
-
-		String minerID =  currentMinerAddress;
+		String minerID = currentMinerAddress;
 		Miner miner = null;
 		BusinessCompany businessCompany = null;
 		boolean isBussiness = false;
@@ -86,7 +76,8 @@ public class ProfileController {
 			}
 		}
 
-		// check if miner is business or private, if business, get business details from DB
+		// check if miner is business or private, if business, get business details from
+		// DB
 		for (BusinessCompany b : allBussinessMiners) {
 			if (miner.getUniqueAddress().equals(b.getUniqueAddress())) {
 				businessCompany = b;
@@ -101,8 +92,6 @@ public class ProfileController {
 		tf_username.setText(miner.getName());
 		tf_password.setText(miner.getPassword());
 
-
-
 		if (isBussiness == true) {
 			rb_businerrMiner.setSelected(true);
 			rb_privateMiner.setSelected(false);
@@ -111,14 +100,11 @@ public class ProfileController {
 			tf_contactEmail.setText(businessCompany.getContactEmail());
 			tf_contactPhone.setText(businessCompany.getContactPhone());
 
-		}
-		else {
+		} else {
 			rb_businerrMiner.setSelected(false);
 			rb_privateMiner.setSelected(true);
 
 		}
-
-
 
 		tf_address.setEditable(false);
 		tf_username.setEditable(false);
@@ -136,12 +122,10 @@ public class ProfileController {
 
 	@FXML
 	void runMarketPredictionRep(MouseEvent event) {
-
 	}
 
 	@FXML
 	void saveProfile(MouseEvent event) {
-
 		String miner = tf_address.getText();
 		boolean isPrivate = rb_privateMiner.isSelected();
 		boolean isBussiness = rb_businerrMiner.isSelected();
@@ -150,10 +134,9 @@ public class ProfileController {
 			return;
 
 		// update in db
-
 		if (isPrivate) {
-			if (MinerLogic.getInstance().editMiner(tf_address.getText(), tf_username.getText(),
-					tf_password.getText(), Double.parseDouble(tf_digitalProfit.getText()), tf_email.getText())) {
+			if (MinerLogic.getInstance().editMiner(tf_address.getText(), tf_username.getText(), tf_password.getText(),
+					Double.parseDouble(tf_digitalProfit.getText()), tf_email.getText())) {
 
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Successfully updated!");
@@ -182,13 +165,13 @@ public class ProfileController {
 			}
 
 			// update miner details in miner tbl
-			if (MinerLogic.getInstance().editMiner(tf_address.getText(), tf_username.getText(),
-					tf_password.getText(), Double.parseDouble(tf_digitalProfit.getText()), tf_email.getText())) {
+			if (MinerLogic.getInstance().editMiner(tf_address.getText(), tf_username.getText(), tf_password.getText(),
+					Double.parseDouble(tf_digitalProfit.getText()), tf_email.getText())) {
 
 				// if was business, update miner details in company tbl
 				if (wasBusiness) {
 					if (MinerLogic.getInstance().editBusinessCompany(tf_address.getText(), tf_contactName.getText(),
-							tf_contactPhone.getText(), tf_contactEmail.getText()))  {
+							tf_contactPhone.getText(), tf_contactEmail.getText())) {
 
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setTitle("Successfully updated!");
@@ -203,12 +186,12 @@ public class ProfileController {
 						alert.initModality(Modality.APPLICATION_MODAL);
 						alert.showAndWait();
 					}
-				
-				// if was not business, add miner details in company tbl
+
+					// if was not business, add miner details in company tbl
 				} else {
 
 					if (MinerLogic.getInstance().addBusinessCompany(tf_address.getText(), tf_contactName.getText(),
-							tf_contactPhone.getText(), tf_contactEmail.getText()))  {
+							tf_contactPhone.getText(), tf_contactEmail.getText())) {
 
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setTitle("Successfully updated!");
@@ -239,17 +222,16 @@ public class ProfileController {
 
 	}
 
-
-	public boolean isValid () {
+	public boolean isValid() {
 
 		boolean isVaild = true;
 		boolean isPrivate = rb_privateMiner.isSelected();
 		boolean isBussiness = rb_businerrMiner.isSelected();
 
-		System.out.println("isPrivate" + isPrivate + "  isBussiness"+ isBussiness);
+		System.out.println("isPrivate" + isPrivate + "  isBussiness" + isBussiness);
 
 		// valid info, cant be empty fields
-		if (tf_username.getText().equals("") ||	tf_password.getText().equals("") ||	tf_email.getText().equals("")) {
+		if (tf_username.getText().equals("") || tf_password.getText().equals("") || tf_email.getText().equals("")) {
 			isVaild = false;
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Fields are empty!");
@@ -266,12 +248,13 @@ public class ProfileController {
 			alert.setContentText("Please choose if you are an business or a private miner (Can't be both)");
 			alert.initModality(Modality.APPLICATION_MODAL);
 			alert.showAndWait();
-		} 	
+		}
 
 		else {
 			// validate info if private
 			if (isPrivate) {
-				if (!(tf_contactName.getText().equals("") && tf_contactPhone.getText().equals("") && tf_contactEmail.getText().equals(""))) {
+				if (!(tf_contactName.getText().equals("") && tf_contactPhone.getText().equals("")
+						&& tf_contactEmail.getText().equals(""))) {
 					isVaild = false;
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Miner is set as private!");
@@ -283,7 +266,8 @@ public class ProfileController {
 
 			// validate info if business
 			else if (isBussiness) {
-				if (tf_contactName.getText().equals("") && tf_contactPhone.getText().equals("") && tf_contactEmail.getText().equals("")) {
+				if (tf_contactName.getText().equals("") && tf_contactPhone.getText().equals("")
+						&& tf_contactEmail.getText().equals("")) {
 					isVaild = false;
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Feilds are empty!");
@@ -296,7 +280,6 @@ public class ProfileController {
 		return isVaild;
 
 	}
-
 
 	@FXML
 	void updateProfile(MouseEvent event) {

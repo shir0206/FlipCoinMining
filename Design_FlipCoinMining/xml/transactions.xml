@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><Transactions exportDate="2019-01-15T20:00:58.407"><transaction ID="PAY0002"><size>5</size><type>PAY</type><commission>0.5</commission><blockID>1</blockID><additionDate/></transaction><transaction ID="CNF0001"><size>10</size><type>CONFIRM</type><commission>0.2</commission><blockID>1</blockID><additionDate/></transaction></Transactions>

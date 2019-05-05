@@ -1,12 +1,34 @@
 package boundary;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+
+import org.json.simple.DeserializationException;
+import org.json.simple.JsonArray;
+import org.json.simple.JsonObject;
+import org.json.simple.Jsoner;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import control.BlockLogic;
 import control.DataLogic;
@@ -17,22 +39,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import net.sf.jasperreports.engine.JRException;
 
 public class BlockController {
 
-	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
-	private boolean isWorker = Consts.isWorker;
-
+	private String currentMinerAddress = Consts.currentMinerAddress; // the current miner that is logged in
 	private ArrayList<Block> allBlocks;
 	private ArrayList<Block> allCurrentMinerBlocks = new ArrayList<Block>();
 
@@ -67,7 +86,6 @@ public class BlockController {
 
 	@FXML
 	private TextField tf_creationHour;
-
 
 	@FXML
 	private TableView<Transaction> tbl_transInBlock;
@@ -140,38 +158,32 @@ public class BlockController {
 
 	}
 
-
+	/**
+	 * Initialize Transactions in block table
+	 */
 	private void setTransInBlockTable() {
 
 		// Get all transactions from DB
-		//	allTransactions = BlockLogic.instance.getAllTransactions();
 		allTransactions = BlockLogic.getInstance().getAllAvailableTransactions();
 
 		// Get all available transactions that are attached to current block
-		for (int i=0; i<allTransactions.size(); i++) {
-			if ((allTransactions.get(i).getblockAddress() != null) && (allTransactions.get(i).getblockAddress().equals(currentBlock))) 
+		for (int i = 0; i < allTransactions.size(); i++) {
+			if ((allTransactions.get(i).getblockAddress() != null)
+					&& (allTransactions.get(i).getblockAddress().equals(currentBlock)))
 				allTransactionsInBlock.add(allTransactions.get(i));
 		}
-
 
 		// Update block capacity
 		Integer blockCapacity = calculateBlockCapacity();
 		tf_blockCapacity.setText(blockCapacity.toString());
 
-
 		// Display the transactions in the block
 		ObservableList<Transaction> allTransactionsInBlockList = FXCollections.observableArrayList();
-		//	allTransactionsInBlockList.setAll(BlockLogic.instance.getAllTransactionsInBlock(currentBlock));
-		//		ObservableList<Transaction> temp = FXCollections.observableArrayList();
-		//
-		//		tbl_transInBlock.setItems(temp);
-		//		tbl_transInBlock.refresh();
-		//		
+
 		allTransactionsInBlockList.setAll(allTransactionsInBlock);
 
 		tbl_transInBlock.setItems(allTransactionsInBlockList);
 		tbl_transInBlock.refresh();
-
 
 	}
 
@@ -180,12 +192,10 @@ public class BlockController {
 	 */
 	private void setAllTransTable() {
 
-		// Get all transactions from DB
 		allTransactions = BlockLogic.getInstance().getAllTransactions();
 
-		// Get all available transactions that aren't attached to any block
-		for (int i=0; i<allTransactions.size(); i++) {
-			if (allTransactions.get(i).getblockAddress() == null) 
+		for (int i = 0; i < allTransactions.size(); i++) {
+			if (allTransactions.get(i).getblockAddress() == null)
 				allAvailableTransactions.add(allTransactions.get(i));
 		}
 
@@ -199,9 +209,6 @@ public class BlockController {
 		tbl_allTrans.refresh();
 	}
 
-
-
-
 	/**
 	 * This method sets the block details
 	 */
@@ -212,8 +219,8 @@ public class BlockController {
 
 		// Get all blocks of the current miner
 		allCurrentMinerBlocks = new ArrayList<Block>();
-		for (int i=0; i<allBlocks.size();i++) {
-			if (allBlocks.get(i).getMinerAddress().equals(currentMinerAddress)) 
+		for (int i = 0; i < allBlocks.size(); i++) {
+			if (allBlocks.get(i).getMinerAddress().equals(currentMinerAddress))
 				allCurrentMinerBlocks.add(allBlocks.get(i));
 		}
 
@@ -221,10 +228,7 @@ public class BlockController {
 		currentBlockIndex = (allCurrentMinerBlocks.size() - 1);
 
 		currentBlock = allCurrentMinerBlocks.get(currentBlockIndex).getID();
-
-
 	}
-
 
 	/**
 	 * This method sets the block details
@@ -238,18 +242,19 @@ public class BlockController {
 		Integer size = allCurrentMinerBlocks.get(currentBlockIndex).getSize();
 		String previousBlock = allCurrentMinerBlocks.get(currentBlockIndex).getPreviousBlock();
 
-		tf_address.setText(blockID);;
+		tf_address.setText(blockID);
+		;
 		tf_creationDate.setText(creationDate.toString());
 
-		tf_size.setText(size.toString());;
+		tf_size.setText(size.toString());
+		;
 
 		Integer blockCapacity = calculateBlockCapacity();
 		tf_blockCapacity.setText(blockCapacity.toString());
 
-		if (previousBlock != null) 
+		if (previousBlock != null)
 			tf_prevBlock.setText(previousBlock.toString());
 	}
-
 
 	/**
 	 * This method calculates block capacity
@@ -263,7 +268,6 @@ public class BlockController {
 
 	@FXML
 	void addTransToBlock() throws ClassNotFoundException {
-		//	allTransactionsInBlock
 
 		ArrayList<Transaction> transactions = new ArrayList<>();
 		transactions.addAll(tbl_allTrans.getSelectionModel().getSelectedItems());
@@ -278,11 +282,9 @@ public class BlockController {
 			alert.showAndWait();
 		}
 
-		else  {
+		else {
 			for (Transaction t : transactions) {
 				Transaction transaction = new Transaction(t.getID(), t.getSize(), t.getType(), t.getFee());
-
-				//		if (allTransactionsInBlock.contains(transaction)) {
 
 				if (allTransactionsInBlock.contains(transaction)) {
 
@@ -296,10 +298,11 @@ public class BlockController {
 
 				}
 
-				else  {
+				else {
 
 					// Check size of the transaction, if it is possible to add it
-					if ( (t.getSize()) + calculateBlockCapacity() > allCurrentMinerBlocks.get(currentBlockIndex).getSize()) {
+					if ((t.getSize()) + calculateBlockCapacity() > allCurrentMinerBlocks.get(currentBlockIndex)
+							.getSize()) {
 
 						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Transaction Too Big");
@@ -312,15 +315,15 @@ public class BlockController {
 						// Add the transaction
 						allAvailableTransactions.remove(transaction);
 
-
-
 						allTransactionsInBlock.add(transaction);
-						//	allAvailableTransactions.remove(allAvailableTransactions.indexOf(transaction));
-						BlockLogic.getInstance().addTransToBlock(transaction, allCurrentMinerBlocks.get(currentBlockIndex));
+						// allAvailableTransactions.remove(allAvailableTransactions.indexOf(transaction));
+						BlockLogic.getInstance().addTransToBlock(transaction,
+								allCurrentMinerBlocks.get(currentBlockIndex));
 					}
 				}
 			}
 		}
+
 		System.out.println(allTransactionsInBlock);
 		setTransInBlockTable();
 
@@ -328,17 +331,14 @@ public class BlockController {
 
 	}
 
-
-
 	@FXML
 	void removeTransFromBlock() throws ClassNotFoundException {
-		//	allTransactionsInBlock
 
 		ArrayList<Transaction> transactions = new ArrayList<>();
 		transactions.addAll(tbl_allTrans.getSelectionModel().getSelectedItems());
 		System.out.println("Successfully added available transactions");
 
-		String blockID = tf_address.getText();
+		tf_address.getText();
 		if (allTransactionsInBlock.isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Choose transactions");
@@ -347,7 +347,7 @@ public class BlockController {
 			alert.showAndWait();
 		}
 
-		else  {
+		else {
 			for (Transaction t : transactions) {
 				Transaction transaction = new Transaction(t.getID(), t.getSize(), t.getType(), t.getFee());
 
@@ -362,8 +362,7 @@ public class BlockController {
 
 				}
 
-				else  {
-
+				else {
 
 					// Add the transaction
 					allTransactionsInBlock.remove(transaction);
@@ -373,6 +372,7 @@ public class BlockController {
 
 			}
 		}
+
 		System.out.println(allTransactionsInBlock);
 		setTransInBlockTable();
 
@@ -387,7 +387,6 @@ public class BlockController {
 
 	@FXML
 	void watchNextBlock() {
-
 
 		// If it is the last block in the chain, alert
 		if ((currentBlockIndex + 1) == allCurrentMinerBlocks.size()) {
@@ -421,7 +420,6 @@ public class BlockController {
 			setAllTransTable();
 			setTransInBlockTable();
 		}
-
 	}
 
 	@FXML
@@ -459,6 +457,102 @@ public class BlockController {
 			setAllTransTable();
 			setTransInBlockTable();
 		}
+
+	}
+
+	public void importTransactionsFromJSON() {
+		try (FileReader reader = new FileReader(new File("json/importedTransactions.json"))) {
+			JsonObject doc = (JsonObject) Jsoner.deserialize(reader);
+			JsonArray transactions = (JsonArray) doc.get("Transactions");
+			Iterator<Object> iterator = transactions.iterator();
+			int errors = 0;
+			while (iterator.hasNext()) {
+				JsonObject obj = (JsonObject) iterator.next();
+				Transaction t = new Transaction((String) obj.get("ID"), obj.getInteger("Size"),
+						(String) obj.get("Type"), (Double) obj.getDouble("Comission Fee"));
+			}
+		}
+
+		catch (IOException | DeserializationException e) {
+			e.printStackTrace();
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("There was an error importing transactions!");
+			alert.showAndWait();
+			return;
+		}
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Success");
+		alert.setHeaderText("All transactions were imported successfully");
+		alert.showAndWait();
+
+	}
+
+	public void exportTransactionsToXML() {
+
+		try {
+			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+			try (Connection conn = DriverManager.getConnection(Consts.CONN_STR);
+					PreparedStatement stmt = conn
+							.prepareStatement(Consts.SQL_Transaction_getAllTransInBlock(currentBlock));
+					ResultSet rs = stmt.executeQuery()) {
+
+				// create document object.
+				Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+
+				// push root element into document object.
+				Element rootElement = doc.createElement("Transactions");
+				rootElement.setAttribute("exportDate", LocalDateTime.now().toString());
+				doc.appendChild(rootElement);
+
+				while (rs.next()) { // run on all customer records..
+									// create customer element.
+					Element transaction = doc.createElement("transaction");
+
+					// assign key to customer.
+					Attr attr = doc.createAttribute("ID");
+					attr.setValue(rs.getString(1));
+					transaction.setAttributeNode(attr);
+
+					// push elements to customer.
+					for (int i = 2; i <= rs.getMetaData().getColumnCount(); i++) {
+						Element element = doc.createElement(rs.getMetaData().getColumnName(i)); // push element to doc.
+						rs.getObject(i); // for wasNull() check..
+						element.appendChild(doc.createTextNode(rs.wasNull() ? "" : rs.getString(i))); // set element
+																										// value.
+						transaction.appendChild(element); // push element to customer.
+					}
+
+					// push transaction to document's root element.
+					rootElement.appendChild(transaction);
+				}
+
+				// write the content into xml file
+
+				DOMSource source = new DOMSource(doc);
+				File file = new File("xml/transactions.xml");
+				file.getParentFile().mkdir(); // create xml folder if doesn't exist.
+				StreamResult result = new StreamResult(file);
+				TransformerFactory factory = TransformerFactory.newInstance();
+
+				Transformer transformer = factory.newTransformer();
+				transformer.transform(source, result);
+				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+			}
+
+			catch (SQLException | NullPointerException | ParserConfigurationException | TransformerException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Status");
+		alert.setHeaderText("Export has been done");
+		alert.showAndWait();
 
 	}
 

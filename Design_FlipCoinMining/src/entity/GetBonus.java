@@ -12,13 +12,15 @@ public class GetBonus {
 		this.lotteryNumber = lotteryNumber;
 		this.bonusNumber = bonusNumber;
 	}
-	
+
 	public String getUniqueAddress() {
 		return uniqueAddress;
 	}
+
 	public int getLotteryNumber() {
 		return lotteryNumber;
 	}
+
 	public int getBonusNumber() {
 		return bonusNumber;
 	}
@@ -28,7 +30,5 @@ public class GetBonus {
 		return "GetBonus [uniqueAddress=" + uniqueAddress + ", lotteryNumber=" + lotteryNumber + ", bonusNumber="
 				+ bonusNumber + "]";
 	}
-	
-	
-	
+
 }

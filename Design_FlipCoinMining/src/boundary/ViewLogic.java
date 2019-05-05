@@ -1,6 +1,5 @@
 package boundary;
 
-
 import java.io.IOException;
 import java.net.URL;
 
@@ -33,6 +32,7 @@ public class ViewLogic {
 
 	/**
 	 * this method manages the window properties
+	 * 
 	 * @param fxmlLocation
 	 * @param stage
 	 * @param prefWidth
@@ -45,9 +45,8 @@ public class ViewLogic {
 	 * @param title
 	 * @param waitFor
 	 */
-	protected static void newWindow(URL fxmlLocation, Stage stage, Double prefWidth,
-			Double prefHeight, Double minWidth, Double minHeight, Double maxWidth,
-			Double maxHeight, boolean resizable, String title, boolean waitFor) {
+	protected static void newWindow(URL fxmlLocation, Stage stage, Double prefWidth, Double prefHeight, Double minWidth,
+			Double minHeight, Double maxWidth, Double maxHeight, boolean resizable, String title, boolean waitFor) {
 
 		Platform.runLater(new Runnable() {
 
@@ -83,8 +82,7 @@ public class ViewLogic {
 						stage.initModality(Modality.APPLICATION_MODAL);
 
 					stage.showAndWait();
-				}
-				catch (IOException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -98,8 +96,7 @@ public class ViewLogic {
 	protected static void newEmployeeWindow() {
 		Stage stage = new Stage();
 
-		newWindow(ViewLogic.class.getResource("LogIn.fxml"),
-				stage, null, null, null, null, null, null, true, "Flip Coin Mining", false);
+		newWindow(ViewLogic.class.getResource("LogIn.fxml"), stage, null, null, null, null, null, null, true,
+				"Flip Coin Mining", false);
 	}
 }
-

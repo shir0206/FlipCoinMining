@@ -2,10 +2,7 @@ package boundary;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import control.DataLogic;
 import control.MinerLogic;
-import entity.BusinessCompany;
 import entity.Consts;
 import entity.Miner;
 import javafx.fxml.FXML;
@@ -13,9 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -23,7 +20,6 @@ import javafx.stage.Stage;
 public class LogInController {
 
 	private ArrayList<Miner> allMiners = MinerLogic.getInstance().getAllMiners();
-
 
 	@FXML
 	private TextField tf_address;
@@ -34,13 +30,11 @@ public class LogInController {
 	@FXML
 	private Button btn_logIn;
 
-
-
 	/**
 	 * This method opens 'Home' window
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
-
 	@FXML
 	void logIn(MouseEvent event) throws IOException {
 		System.out.println("Initialize " + this.getClass().getName() + " window");
@@ -53,7 +47,6 @@ public class LogInController {
 			Consts.currentMinerAddress = "admin";
 			Consts.isWorker = true;
 			setEmpHome();
-
 		}
 
 		// check if user is a miner
@@ -67,7 +60,7 @@ public class LogInController {
 				// check address
 				if (m.getUniqueAddress().equals(minerAddress)) {
 					correctAddress = true;
-					
+
 					// check password
 					if (m.getPassword().equals(minerPassword)) {
 						correctPassword = true;
@@ -80,16 +73,16 @@ public class LogInController {
 				}
 			}
 
-			if (!correctAddress) 
+			if (!correctAddress)
 				incorrectAddress();
 			if (!correctPassword)
 				incorrectPassword();
 		}
 	}
 
-
-
-
+	/**
+	 * Alert for incorrect miner address
+	 */
 	void incorrectAddress() {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Wrong address");
@@ -98,6 +91,9 @@ public class LogInController {
 		alert.showAndWait();
 	}
 
+	/**
+	 * Alert for incorrect miner password
+	 */
 	void incorrectPassword() {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Wrong password");
@@ -106,24 +102,28 @@ public class LogInController {
 		alert.showAndWait();
 	}
 
-
+	/**
+	 * Set Administrator home screen
+	 */
 	void setEmpHome() throws IOException {
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EmpHome.fxml"));
 		Parent root1 = (Parent) fxmlLoader.load();
 		Stage stage = new Stage();
-		stage.setScene(new Scene(root1));  
+		stage.setScene(new Scene(root1));
 		stage.setTitle("Flip Coin Mining (Administrator)");
 		stage.show();
 	}
 
-
+	/**
+	 * Set user home screen
+	 */
 	void setHome() throws IOException {
 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
 		Parent root1 = (Parent) fxmlLoader.load();
 		Stage stage = new Stage();
-		stage.setScene(new Scene(root1));  
+		stage.setScene(new Scene(root1));
 		stage.setTitle("Flip Coin Mining");
 		stage.show();
 	}

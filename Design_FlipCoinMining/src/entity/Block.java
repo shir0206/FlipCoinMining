@@ -1,16 +1,15 @@
 package entity;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Block {
-	
+
 	private final String ID;
 	private Timestamp creationDate;
 	private int size;
 	private String previousBlock;
 	private String minerAddress;
-	
+
 	public Block(String ID, Timestamp creationDate, int size, String previousBlock, String minerAddress) {
 		super();
 		this.ID = ID;
@@ -21,7 +20,7 @@ public class Block {
 		this.minerAddress = minerAddress;
 	}
 
-	public Block (String ID) {
+	public Block(String ID) {
 		this.ID = ID;
 	}
 
@@ -36,7 +35,7 @@ public class Block {
 	public int getSize() {
 		return size;
 	}
-	
+
 	public void setSize(int size) {
 		this.size = size;
 	}
@@ -61,13 +60,10 @@ public class Block {
 		return ID;
 	}
 
-
-	
 	@Override
 	public String toString() {
-		return "Block [ID=" + ID + ", creationDate=" + creationDate +  ", size=" + size + ", minerAddress=" + minerAddress
-				+ ", previousBlock=" + previousBlock + "]";
+		return "Block [ID=" + ID + ", creationDate=" + creationDate + ", size=" + size + ", minerAddress="
+				+ minerAddress + ", previousBlock=" + previousBlock + "]";
 	}
 
-		
 }

@@ -1,43 +1,30 @@
 package boundary;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 import control.LotteryLogic;
-import entity.Bonus;
 import entity.Consts;
 import entity.Lottery;
 import entity.Participant;
-import entity.Solution;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 
 public class LotteriesController {
 
-	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
-	private boolean isWorker = Consts.isWorker;
-
-	private HashMap<String,Lottery> allLotteries= LotteryLogic.getInstance().getAllLotteriesHM();
-	private ArrayList<Participant> allParticipants= LotteryLogic.getInstance().getAllParticipants();
-
-	private ArrayList<Bonus> allBonusesList= LotteryLogic.getInstance().getAllBonuses();
+	private String currentMinerAddress = Consts.currentMinerAddress; // the current miner that is logged in
+	private HashMap<String, Lottery> allLotteries = LotteryLogic.getInstance().getAllLotteriesHM();
+	private ArrayList<Participant> allParticipants = LotteryLogic.getInstance().getAllParticipants();
 
 	@FXML
 	private TextField tf_number;
@@ -84,14 +71,11 @@ public class LotteriesController {
 	@FXML
 	private Button btn_cancel;
 
-
-
 	public void initialize() {
 
 		System.out.println("Initialize " + this.getClass().getName() + " window");
 
 		// setting lotteries table
-
 		col_allLotteries_number.setCellValueFactory(new PropertyValueFactory<>("lotteryNumber"));
 		col_allLotteries_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 		col_allLotteries_maxParticipants.setCellValueFactory(new PropertyValueFactory<>("maxParticipants"));
@@ -102,13 +86,19 @@ public class LotteriesController {
 
 	}
 
+	/**
+	 * Set lottery table
+	 */
 	private void setAllLotteriesTable() {
 		ObservableList<Lottery> lotteries = FXCollections.observableArrayList();
 		lotteries.setAll(LotteryLogic.getInstance().getAllLotterys());
-		tbl_allLotteries.setItems(lotteries);	
-		tbl_allLotteries.refresh();		
+		tbl_allLotteries.setItems(lotteries);
+		tbl_allLotteries.refresh();
 	}
 
+	/**
+	 * cancel lottery
+	 */
 	@FXML
 	void cancelLottery() {
 		String lotteryNumber = tbl_allLotteries.getSelectionModel().getSelectedItem().getLotteryNumber();
@@ -124,7 +114,7 @@ public class LotteriesController {
 		}
 
 		// Check if already registered
-		if (regToThisLottery==false) {
+		if (regToThisLottery == false) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Not registred!");
 			alert.setContentText("You are not registred");
@@ -132,9 +122,8 @@ public class LotteriesController {
 			alert.showAndWait();
 		}
 
-
 		// cancel registration
-		else if (regToThisLottery==true) {
+		else if (regToThisLottery == true) {
 
 			if (LotteryLogic.getInstance().removeParticipant(lotteryNumber, currentMinerAddress)) {
 				Alert alert = new Alert(AlertType.INFORMATION);
@@ -144,8 +133,7 @@ public class LotteriesController {
 				alert.showAndWait();
 
 				watchLotteryDetails();
-			}
-			else {
+			} else {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Failed to cancel registration!");
 				alert.setContentText("Faild to cancel registration");
@@ -156,6 +144,9 @@ public class LotteriesController {
 
 	}
 
+	/**
+	 * Sign up lottery
+	 */
 	@FXML
 	void signUpLottery() {
 
@@ -169,17 +160,12 @@ public class LotteriesController {
 		for (Participant p : allParticipants) {
 			if ((p.getLotteryNumber().equals(lotteryNumber)) & (p.getUniqueAddress().equals(currentMinerAddress))) {
 				regToThisLottery = true;
-				//				Alert alert = new Alert(AlertType.ERROR);
-				//				alert.setTitle("Already registred!");
-				//				alert.setContentText("You are already registred");
-				//				alert.initModality(Modality.APPLICATION_MODAL);
-				//				alert.showAndWait();
 				break;
 			}
 		}
 
 		// Check if lottery is full
-		if  ((currentParticipants + 1) > maxParticipants ) {
+		if ((currentParticipants + 1) > maxParticipants) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Lottery is full!");
 			alert.setContentText("Sorry, lottery is full! Please try to sign up to another lottery");
@@ -189,7 +175,7 @@ public class LotteriesController {
 
 		// Lottery is not full --> sign up
 		else {
-			if (regToThisLottery==false) {
+			if (regToThisLottery == false) {
 				if (LotteryLogic.getInstance().addParticipant(lotteryNumber, currentMinerAddress, false)) {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Seccessfully signed up!");
@@ -198,8 +184,7 @@ public class LotteriesController {
 					alert.showAndWait();
 
 					watchLotteryDetails();
-				}
-				else {
+				} else {
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Failed to signed up!");
 					alert.setContentText("Faild to signed up");
@@ -207,7 +192,8 @@ public class LotteriesController {
 					alert.showAndWait();
 				}
 			}
-			//registered==true
+
+			// if registered
 			else {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Already registred!");
@@ -216,10 +202,11 @@ public class LotteriesController {
 				alert.showAndWait();
 			}
 		}
-
-
 	}
 
+	/**
+	 * Watch lottery details
+	 */
 	@FXML
 	void watchLotteryDetails() {
 
@@ -230,9 +217,9 @@ public class LotteriesController {
 		tf_bonusesNum.setText(Integer.toString(allLotteries.get(lotteryNumber).getNumberOfBonuses()));
 		tf_date.setText(allLotteries.get(lotteryNumber).getDate().toString());
 
-		tf_regParticipants.setText(Integer.toString(LotteryLogic.getInstance().getSumOfParticipantsInLottery(lotteryNumber)));
+		tf_regParticipants
+				.setText(Integer.toString(LotteryLogic.getInstance().getSumOfParticipantsInLottery(lotteryNumber)));
 
 	}
-
 
 }

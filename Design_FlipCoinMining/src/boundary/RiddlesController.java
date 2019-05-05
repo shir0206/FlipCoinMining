@@ -1,17 +1,10 @@
 package boundary;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import control.BlockLogic;
-import control.DataLogic;
 import control.RiddleLogic;
 import entity.Block;
 import entity.Consts;
@@ -23,24 +16,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 
 public class RiddlesController {
 
-	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
-	private boolean isWorker = Consts.isWorker;
-
-	private HashMap<Integer,Riddle> allRiddles = RiddleLogic.getInstance().getAllRiddlesHM();
+	private String currentMinerAddress = Consts.currentMinerAddress; // the current miner that is logged in
+	private HashMap<Integer, Riddle> allRiddles = RiddleLogic.getInstance().getAllRiddlesHM();
 
 	private ArrayList<Solution> allSolutions = RiddleLogic.getInstance().getAllSolutions();
 
-	private ArrayList<RiddleLevel>  allLevels = RiddleLogic.getInstance().getAllRiddleLevels();
+	private ArrayList<RiddleLevel> allLevels = RiddleLogic.getInstance().getAllRiddleLevels();
 
 	private ArrayList<Block> allBlocks = BlockLogic.getInstance().getAllBlocks();
 
@@ -107,36 +98,27 @@ public class RiddlesController {
 
 	}
 
-
 	private void setAllRiddlesTable() {
 
 		ObservableList<Riddle> riddles = FXCollections.observableArrayList();
 		riddles.setAll(RiddleLogic.getInstance().getAllRiddles());
-		tbl_allRiddles.setItems(riddles);	
+		tbl_allRiddles.setItems(riddles);
 		tbl_allRiddles.refresh();
 	}
-
-
-
 
 	@FXML
 	void sendRiddleSolution() {
 
-
 		int riddleID = Integer.valueOf(tf_number.getText());
-		int solutionID;
 		String solutionUser = tf_riddleSolution.getText();
 
-		// calc the user solving time
+		// calculate the user solving time
 		Timestamp currentTime = Consts.getCurrentTimeStamp();
 		Timestamp solutionTime = allRiddles.get(riddleID).getSolutionTime();
 		long diffTime = solutionTime.getTime() - currentTime.getTime();
 		System.out.println(diffTime);
-		//long diffTime = (Date)solutionTime.getTime() - (Date)currentTime.getTime();
 
-
-
-		// Check if answer exists	
+		// Check if answer exists
 		if (solutionUser.equals("")) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("No solution");
@@ -152,10 +134,10 @@ public class RiddlesController {
 
 			// Iterate over all solutions if check if user right or wrong
 			for (Solution s : allSolutions) {
-				if (s.getRiddleNumber()==riddleID) {
-					if (s.getResult().equals(solutionUser)) {		
+				if (s.getRiddleNumber() == riddleID) {
+					if (s.getResult().equals(solutionUser)) {
 						correct = true;
-						solutionID = s.getSolutionNumber();
+						s.getSolutionNumber();
 						break;
 					}
 				}
@@ -169,24 +151,21 @@ public class RiddlesController {
 
 			// if solution is correct
 			// if solved in time
-			if (diffTime<0) {
+			if (diffTime < 0) {
 
-				//alert
+				// alert
 				timeOut();
 
-				// change riddle status to closed 
+				// change riddle status to closed
 				RiddleLogic.getInstance().editRiddleStatus(riddleID, "Closed");
 				return;
 			}
 
-			SolvedRiddle solvedRiddle = new SolvedRiddle(currentMinerAddress, riddleID, currentTime);
+			new SolvedRiddle(currentMinerAddress, riddleID, currentTime);
 			RiddleLogic.getInstance().addSolvedRiddle(currentMinerAddress, riddleID, currentTime);
-
-
 
 			// update riddle solving time in db
 			// TODO
-
 
 			// create new block
 			String blockID;
@@ -198,16 +177,16 @@ public class RiddlesController {
 					allCurrentMinerBlocks.add(b);
 			}
 
-			if (allCurrentMinerBlocks.isEmpty() || allCurrentMinerBlocks==null) {
+			if (allCurrentMinerBlocks.isEmpty() || allCurrentMinerBlocks == null) {
 				previousBlock = null;
-				blockID = "b" + currentMinerAddress.substring(0, currentMinerAddress.length()-1) + "00";
+				blockID = "b" + currentMinerAddress.substring(0, currentMinerAddress.length() - 1) + "00";
 			}
-				
-			else {
-			// get last block address
-			previousBlock = allCurrentMinerBlocks.get((allCurrentMinerBlocks.size()-1)).getID();
 
-			blockID = "b" + (Integer.parseInt(previousBlock.substring(1)) + 1);
+			else {
+				// get last block address
+				previousBlock = allCurrentMinerBlocks.get((allCurrentMinerBlocks.size() - 1)).getID();
+
+				blockID = "b" + (Integer.parseInt(previousBlock.substring(1)) + 1);
 			}
 
 			// calc block size
@@ -219,12 +198,12 @@ public class RiddlesController {
 					blockSize = l.getBlockSize();
 			}
 
-
-			System.out.println(blockID + " "+ currentTime+ " "+  blockSize+ " "+ currentMinerAddress+ " "+ previousBlock);
+			System.out.println(
+					blockID + " " + currentTime + " " + blockSize + " " + currentMinerAddress + " " + previousBlock);
 			// add block
 			BlockLogic.getInstance().addBlock(blockID, currentTime, blockSize, currentMinerAddress, previousBlock);
 
-			// change riddle status to closed 
+			// change riddle status to closed
 			RiddleLogic.getInstance().editRiddleStatus(riddleID, "Closed");
 
 			// alert
@@ -239,7 +218,6 @@ public class RiddlesController {
 		}
 
 	}
-
 
 	void incorrectSolution() {
 		Alert alert = new Alert(AlertType.ERROR);
@@ -258,7 +236,6 @@ public class RiddlesController {
 
 	}
 
-
 	@FXML
 	void watchRiddleDetails() {
 
@@ -276,14 +253,7 @@ public class RiddlesController {
 			alert.showAndWait();
 		}
 
-
-		// Check time
-		//else if (allRiddles.get(riddleID).getSolutionTime()<0){
-		// TODO
-		// publish date & time + solution time > today
-		//}
-
-		else {		
+		else {
 
 			tf_number.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleNumber()));
 
@@ -296,8 +266,6 @@ public class RiddlesController {
 			tf_level.setText(Integer.toString(tbl_allRiddles.getSelectionModel().getSelectedItem().getRiddleLevel()));
 		}
 
-
 	}
-
 
 }

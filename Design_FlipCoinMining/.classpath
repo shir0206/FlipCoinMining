@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="UCanAccess-4.0.2-bin/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="UCanAccess-4.0.2-bin/lib/hsqldb.jar"/>
 	<classpathentry kind="lib" path="UCanAccess-4.0.2-bin/lib/jackcess-2.1.6.jar"/>
+	<classpathentry kind="lib" path="/Design_HW2/json-simple-2.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

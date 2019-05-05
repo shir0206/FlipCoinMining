@@ -2,18 +2,14 @@ package boundary;
 
 import java.util.ArrayList;
 
-import control.DataLogic;
 import control.MinerLogic;
 import entity.BusinessCompany;
-import entity.Consts;
 import entity.Miner;
-import entity.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -22,60 +18,55 @@ import javafx.scene.input.MouseEvent;
 
 public class OtherMinersController {
 
-	private String currentMinerAddress = Consts.currentMinerAddress; //the current miner that  is logged in
-	private boolean isWorker = Consts.isWorker;
-	
 	private ArrayList<Miner> allMiners = MinerLogic.getInstance().getAllMiners();
-	private ArrayList<BusinessCompany> allBussinessMiners= MinerLogic.getInstance().getAllBusinessCompanys();
-	
-    @FXML
-    private TextField tf_address;
+	private ArrayList<BusinessCompany> allBussinessMiners = MinerLogic.getInstance().getAllBusinessCompanys();
 
-    @FXML
-    private TextField tf_profit;
+	@FXML
+	private TextField tf_address;
 
-    @FXML
-    private TextField tf_email;
+	@FXML
+	private TextField tf_profit;
 
-    @FXML
-    private TextField tf_username;
+	@FXML
+	private TextField tf_email;
 
-    @FXML
-    private Button btn_select;
+	@FXML
+	private TextField tf_username;
 
-    @FXML
-    private RadioButton rb_private;
+	@FXML
+	private Button btn_select;
 
-    @FXML
-    private RadioButton rb_business;
-    
-    @FXML
-    private TableView<Miner> tbl_allMiners;
+	@FXML
+	private RadioButton rb_private;
 
-    @FXML
-    private TableColumn<Miner, String> col_allMiners_address;
+	@FXML
+	private RadioButton rb_business;
 
-    @FXML
-    private TableColumn<Miner, String> col_allMiners_username;
+	@FXML
+	private TableView<Miner> tbl_allMiners;
 
-    @FXML
-    private TableColumn<Miner, Double> col_allMiners_profit;
+	@FXML
+	private TableColumn<Miner, String> col_allMiners_address;
 
-    @FXML
-    private TableColumn<Miner, String> col_allMiners_email;
+	@FXML
+	private TableColumn<Miner, String> col_allMiners_username;
 
-    @FXML
-    private TextField tf_contactName;
+	@FXML
+	private TableColumn<Miner, Double> col_allMiners_profit;
 
-    @FXML
-    private TextField tf_contactEmail;
+	@FXML
+	private TableColumn<Miner, String> col_allMiners_email;
 
-    @FXML
-    private TextField tf_contactPhone;
+	@FXML
+	private TextField tf_contactName;
 
-    
-    
-    public void initialize() {
+	@FXML
+	private TextField tf_contactEmail;
+
+	@FXML
+	private TextField tf_contactPhone;
+
+	public void initialize() {
 
 		System.out.println("Initialize " + this.getClass().getName() + " window");
 
@@ -87,24 +78,22 @@ public class OtherMinersController {
 
 		setAllMinersTable();
 	}
-    
-      private void setAllMinersTable() {
-    	ObservableList<Miner> miners = FXCollections.observableArrayList();
+
+	private void setAllMinersTable() {
+		ObservableList<Miner> miners = FXCollections.observableArrayList();
 		miners.setAll(allMiners);
 		tbl_allMiners.setItems(miners);
-		tbl_allMiners.refresh();			    
-      }
-
+		tbl_allMiners.refresh();
+	}
 
 	@FXML
-    void watchMinerDetails(MouseEvent event) {
+	void watchMinerDetails(MouseEvent event) {
 
-
-		String minerID =  tbl_allMiners.getSelectionModel().getSelectedItem().getUniqueAddress();
+		String minerID = tbl_allMiners.getSelectionModel().getSelectedItem().getUniqueAddress();
 		Miner miner = null;
 		BusinessCompany businessCompany = null;
 		boolean isBussiness = false;
-		
+
 		// get miner details from DB
 		for (Miner m : allMiners) {
 			if (m.getUniqueAddress().equals(minerID)) {
@@ -112,8 +101,9 @@ public class OtherMinersController {
 				break;
 			}
 		}
-		
-		// check if miner is business or private, if business, get business details from DB
+
+		// check if miner is business or private, if business, get business details from
+		// DB
 		for (BusinessCompany b : allBussinessMiners) {
 			if (miner.getUniqueAddress().equals(b.getUniqueAddress())) {
 				businessCompany = b;
@@ -121,38 +111,30 @@ public class OtherMinersController {
 				break;
 			}
 		}
-		
+
 		tf_address.setText(miner.getUniqueAddress());
 		tf_profit.setText(Double.toString(miner.getDigitalProfit()));
 		tf_email.setText(miner.getEmail());
 		tf_username.setText(miner.getName());
-		
 
-		
 		if (isBussiness == true) {
 			rb_business.setSelected(true);
 			rb_private.setSelected(false);
-			
+
 			rb_business.setDisable(true);
 			rb_private.setDisable(true);
-			
-			
+
 			tf_contactName.setText(businessCompany.getContactName());
 			tf_contactEmail.setText(businessCompany.getContactEmail());
 			tf_contactPhone.setText(businessCompany.getContactPhone());
-			
-		}
-		else {
+		} else {
 			rb_business.setSelected(false);
 			rb_private.setSelected(true);
-			
+
 			rb_business.setDisable(true);
 			rb_private.setDisable(true);
 		}
-		
 
-    }
-    
-    
+	}
 
 }
